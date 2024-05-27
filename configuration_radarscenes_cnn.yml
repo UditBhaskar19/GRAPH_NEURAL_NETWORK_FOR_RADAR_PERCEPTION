@@ -1,0 +1,74 @@
+RANDOM:
+  seed: 1234
+
+DIRECTORIES:
+  dataset_dir: 'dataset/RadarScenesData/data'
+  model_weights_dir: 'model_weights/cnn'
+  weights_name: 'grid_based_detector.pt'
+
+DATA_SELECTION_PARAM:
+  temporal_window_size: 25       # accumulate measurements from 25 frames (accumulation for approx 500 ms)
+
+DATASET:
+  # all of the radar measurement attributes that 'nuscenes' dataset provide (just for reference)
+  radarmeas_attributes_all:   
+      ['timestamp', 'range_sc', 'azimuth_sc', 'rcs', 'vr', 'vr_compensated',
+       'x_cc', 'y_cc', 'x_seq', 'y_seq', 'uuid', 'track_id', 'label_id' ]
+  # a subset of radar dataset attributes that are actually utilized (just for reference)
+  # some are used to compute node features, and some are used to compute labels
+  radarmeas_attributes_selected: 
+      [ 'rcs', 'vr_compensated', 'x_cc', 'y_cc', 'track_id', 'label_id' ]
+
+OBJECT_CATEGORIES:
+  OBJECT_CLASS: ['CAR', 'PEDESTRIAN', 'PEDESTRIAN_GROUP', 'TWO_WHEELER', 'LARGE_VEHICLE', 'NONE', 'FALSE', 'STATIC']
+  OBJECT_CLASS_WEIGHTS: [0.8, 1.0, 1.0, 1.0, 0.8, 0.7, 0.7, 0.5]
+  OBJECT_CLASS_DYN: ['CAR', 'PEDESTRIAN', 'PEDESTRIAN_GROUP', 'TWO_WHEELER', 'LARGE_VEHICLE', 'NONE', 'FALSE']
+  OBJECT_CLASS_DYN_WEIGHTS: [1.0, 1.0, 1.0, 1.0, 1.0, 0.7, 0.7]
+
+GRID_LIMITS: 
+  max_x: 100
+  min_x: 0
+  max_y: 50
+  min_y: -50
+  min_sigma_x: 0.5
+  max_sigma_x: 2
+  min_sigma_y: 0.5
+  max_sigma_y: 2
+  dx: 0.5
+  dy: 0.5
+
+CNN_ARCHITECTURE:
+  input_image_dimension: 3
+  base_stem_channels: [32, 64]
+  base_kernel_sizes: [11, 7]
+  bottleneck_number_of_blocks: [2, 2, 2, 2]
+  bottleneck_stem_channels: [128, 256, 512, 1024]
+  bottleneck_width_channels: 64
+  bottleneck_kernel_size: 3
+  neck_out_channels: 64
+  neck_kernel_size: 3
+  head_stem_channels: [64]
+  head_ffn_channels: [64]
+  head_kernel_size: 3
+  augmented_features_for_feed_forward_block: ['vr', 'rcs']
+  reg_offset: ['dx', 'dy']
+  reg_mu: [0, 0]
+  reg_sigma: [8, 4]
+  activation: 'leakyrelu'
+  conv_type: 'conv2d'
+
+LOSS_WEIGHTS:
+  loss_cls: 1.0
+  loss_reg: 10.0
+
+OPTIMIZATION:
+  optim: sgd
+  max_training_iterations: 100000
+  learning_rate: 0.001
+  weight_decay: 0.0001
+
+DATASET:
+  num_training_samples: 200000         # to use all the samples put -1
+  num_validation_samples: 1000         # to use all the samples put -1
+  shuffle_training_samples: True
+  shuffle_validation_samples: True

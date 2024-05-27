@@ -1,0 +1,83 @@
+RANDOM:
+  seed: 1234
+
+DIRECTORIES:
+  dataset_dir: 'dataset/RadarScenesData/data'
+  model_weights_dir: 'model_weights/gnn'
+  weights_name: 'graph_based_detector.pt'
+
+DATA_SELECTION_PARAM:
+  reject_static_meas_by_ransac: False  # dont use 'ransac' to remove stationary measurements
+  temporal_window_size: 10       # accumulate measurements from 10 frames
+  ball_query_eps_square: 25      # connect each graph node with all the nodes that are within a radius of 'eps'
+  k_number_nearest_points: 10    # connect each graph node with its k nearest nodes
+  dataset_augmentation: True     # perform dataset augmntation
+
+DATASET_INFO:
+  # all of the radar measurement attributes that 'nuscenes' dataset provide (just for reference)
+  radarmeas_attributes_all:   
+      ['timestamp', 'range_sc', 'azimuth_sc', 'rcs', 'vr', 'vr_compensated',
+       'x_cc', 'y_cc', 'x_seq', 'y_seq', 'uuid', 'track_id', 'label_id' ]
+  # a subset of radar dataset attributes that are actually utilized (just for reference)
+  # some are used to compute node features, and some are used to compute labels
+  radarmeas_attributes_selected: 
+      [ 'timestamp', 'rcs', 'vr_compensated', 'x_cc', 'y_cc', 'track_id', 'label_id' ]
+  include_region_confidence: True  # include azimuth and range confidence scores as node features
+
+OBJECT_CATEGORIES:
+  OBJECT_CLASS: ['CAR', 'PEDESTRIAN', 'PEDESTRIAN_GROUP', 'TWO_WHEELER', 'LARGE_VEHICLE', 'NONE', 'FALSE', 'STATIC']
+  OBJECT_CLASS_WEIGHTS: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 0.5]
+  OBJECT_CLASS_DYN: ['CAR', 'PEDESTRIAN', 'PEDESTRIAN_GROUP', 'TWO_WHEELER', 'LARGE_VEHICLE', 'NONE', 'FALSE']
+  OBJECT_CLASS_WEIGHTS_DYN: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5]
+
+GRID_LIMITS: 
+  max_x: 100
+  min_x: 0
+  max_y: 50
+  min_y: -50
+  min_sigma_x: 0.5
+  max_sigma_x: 2
+  min_sigma_y: 0.5
+  max_sigma_y: 2
+  dx: 0.5
+  dy: 0.5
+
+GNN_ARCHITECTURE:
+  node_features: ['vr', 'rcs', 'timestamp', 'node_degree', 'range_conf', azi_conf]
+  edge_features: ['dx', 'dy', 'dl', 'dvx', 'dvy', 'dv', 'dt']
+  reg_offset: ['dx', 'dy']
+  activation: 'leakyrelu'
+  normalization: 'channel_normalization'
+  num_groups: None
+  reg_mu: [0, 0]
+  reg_sigma: [8, 4]
+  # reg_sigma: [4, 2]
+  aggregation: 'add'
+  node_feat_enc_stem_channels: [256, 128, 64]
+  edge_feat_enc_stem_channels: [256, 128, 128, 64]
+  graph_convolution_stem_channels: [64, 64, 64, 64, 64, 64, 64]
+  msg_mlp_hidden_dim: 128
+  num_blocks_to_compute_edge: 1
+  hidden_node_channels_GAT: 512
+  num_heads_GAT: 8
+  link_pred_stem_channels: [64, 64, 64]
+  node_pred_stem_channels: [64, 64, 64]
+  num_edge_classes: 2
+
+LOSS_WEIGHTS:
+  obj_loss_cls: 1.0
+  node_loss_cls: 1.0
+  edge_loss_cls: 2.0
+  node_loss_reg: 5.0
+
+OPTIMIZATION:
+  optim: sgd
+  max_training_iterations: 200000 
+  learning_rate: 0.005
+  weight_decay: 0.0001
+
+DATASET:
+  num_training_samples: 300000         # to use all the samples put -1
+  num_validation_samples: 1000         # to use all the samples put -1
+  shuffle_training_samples: True
+  shuffle_validation_samples: True

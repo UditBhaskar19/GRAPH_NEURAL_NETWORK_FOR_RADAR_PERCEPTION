@@ -1,0 +1,29 @@
+DIRECTORIES:
+  model_weights_dir: 'model_weights/classifier'
+  weights_name: 'graph_based_classifier.pt'
+
+CLUSTERING:
+  clustering_eps: 1.4
+  valid_cluster_num_meas_thr: 2
+  meas_noise_var: 1
+
+GNN_ARCHITECTURE:
+  node_features: ['px', 'py', 'r', 'th', 'rcs']
+  activation: 'leakyrelu'
+  aggregation: 'sum'
+  node_feat_enc_stem_channels: [256, 128, 128]   #[256, 128, 64]
+  graph_convolution_stem_channels: [128, 128, 128, 128, 128] #[64, 64, 64, 64]
+  msg_mlp_hidden_dim: 128
+  node_pred_stem_channels: [128, 128, 128] # [64, 64]
+
+OPTIMIZATION:
+  optim: sgd
+  max_training_iterations: 100000 
+  learning_rate: 0.001
+  weight_decay: 0.0001
+
+DATASET:
+  num_training_samples: 300000         # to use all the samples put -1
+  num_validation_samples: 1000         # to use all the samples put -1
+  shuffle_training_samples: True
+  shuffle_validation_samples: True
