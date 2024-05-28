@@ -67,14 +67,6 @@ In summary given as input the radar measurements. We perform the following task 
       <li><a href="#Project-Folder-Structure">Project Folder Structure</a></li>
    </ol>
 </li>
-<li><a href="#Exploratory-Data-Analysis">Exploratory Data Analysis</a>
-   <ol>
-      <li><a href="#Scene-and-Label-Instance">Scene and Label Instance</a></li>
-      <li><a href="#Bounding-box-distribution">Bounding box distribution</a></li>
-      <li><a href="#Wrong-annotations">Wrong annotations</a></li>
-      <li><a href="#Dataset-Modification">Dataset Modification</a></li>
-   </ol>
-</li>
 <li><a href="#Model-Architecture">Model Architecture</a> 
    <ol>
        <li><a href="#Concept-Level-Architecture">Concept Level Architecture</a></li> 
@@ -116,34 +108,37 @@ In summary given as input the radar measurements. We perform the following task 
 
 ### Requirements
 ```bash
-opencv_python>=4.8.0.74
 imageio>=2.34.0
 matplotlib>=3.7.2
 numpy>=1.25.0
 torch>=2.0.1
 torchvision>=0.15.2
+torch_geometric>=2.5.0
 tqdm>=4.66.1
 ```
 
 ### How to run the project
 ```bash
-git clone https://github.com/UditBhaskar19/ANCHOR_FREE_OBJECT_DETECTOR_FOR_CAMERA
-cd ANCHOR_FREE_OBJECT_DETECTOR_FOR_CAMERA/AnchorFree2DObjectDetection
+git clone https://github.com/UditBhaskar19/GRAPH_NEURAL_NETWORK_FOR_AUTOMOTIVE_RADAR_PERCEPTION
+cd GRAPH_NEURAL_NETWORK_FOR_AUTOMOTIVE_RADAR_PERCEPTION
 
-# to run inference on bdd video frames
-python video_inference_bdd.py
+# to change the configurations modify the following file
+configuration_radarscenes_gnn.yml
 
-# to run inference on kitti video frames
-python video_inference_kitti.py
+# to test the model if it can overfit use the follwing script
+script_overfit_gnn.ipynb
 
-# to create the labels file
-python script1_create_dataset.py
+# to train the model use the following notebook
+script_train_model_gnn.ipynb
 
-# to train the model use script3_train_model.ipynb 
+# to save outputs as a sequence of images use the following script
+save_predictions.ipynb
 
-# to write detections to video
-cd write_detections_to_video
-python write_detection_to_video_bdd.py
+# to save the ground-truth vs prediction comparison results use the following script
+save_predictions_and_gt.ipynb
+
+# to create GIF use the following script
+create_gif.ipynb
 ```
 
 ### Project Folder Structure
