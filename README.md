@@ -125,63 +125,43 @@ cd GRAPH_NEURAL_NETWORK_FOR_AUTOMOTIVE_RADAR_PERCEPTION
 # to change the configurations modify the following file
 configuration_radarscenes_gnn.yml
 
-# to test the model if it can overfit use the follwing script
+# to test the model if it can overfit use the follwing notebook
 script_overfit_gnn.ipynb
 
 # to train the model use the following notebook
 script_train_model_gnn.ipynb
 
-# to save outputs as a sequence of images use the following script
+# to save outputs as a sequence of images use the following notebook
 save_predictions.ipynb
 
-# to save the ground-truth vs prediction comparison results use the following script
+# to save the ground-truth vs prediction comparison results use the following notebook
 save_predictions_and_gt.ipynb
 
-# to create GIF use the following script
+# to create GIF use the following notebook
 create_gif.ipynb
 ```
 
 ### Project Folder Structure
 ```bash
-AnchorFree2DObjectDetection
-│───doc                          # Project documents
-│───hyperparam                   # Statistical data of the Bounding Box offsets
-│───labels                       # aggregated GT labels data of KITTI and BDD dataset
-│───mAP                          # module to compute mAP ( https://github.com/Cartucho/mAP.git )
-│───model_weights                # model weights data after training
-│───tensorboard                  # data folder for loss visualization in tensorboard.
-│───modules                      # main modules 
-      │───augmentation           # scripts for image augmentation functions            
-      │───dataset_utils          # scripts for data analysis and dataset generation
-      │───evaluation             # scripts for detector evaluation and threshold determination   
-      │───first_stage            # scripts for defining the model and ground truth generation function for dense object detection
-      │───hyperparam             # scripts for computing the bounding box offsets statistics from training data    
-      │───loss                   # loss functions
-      │───neural_net             # scripts for defining various neural net blocks             
-            │───backbone               # model backbone blocks
-            │───bifpn                  # BIFPN blocks for model neck            
-            │───fpn                    # FPN blocks for model neck
-            │───head                   # blocks for model head            
-            │   common.py              # common model building blocks
-            │   constants.py           # constants for model construction  
-      │───plot                   # contains plotting functions
-      │───pretrained             # scripts for loading the pre-trained backbone from pytorch            
-      │───proposal               # scripts for proposal generation
-      │───second-stage           # <work under progress> scripts for defining the model and ground truth generation function for second stage object detection              
-│───tests                                    # folder for testing and validation scripts
-│───video_inference                          # detection results saved as video
-│───write_detections_to_video                # scripts to save detections as video, results are saved in 'video_inference' folder
-│   config_dataset.py                        # parameters and constants for dataset 
-│   config_neuralnet_stage1.py               # model design parameters
-│   script1_create_datasets.py               # aggregate gt labels and save it inside the 'labels' folder
-│   script2_gen_hyperparam.py                # aggregate and save the box offsets and its statistics inside the 'hyperparam' folder
-│   script3_train_model.ipynb                # notebook to train the model 
-│   script4_inference_bdd.ipynb              # run inference on the bdd dataset images
-│   script4_inference_kitti.ipynb            # run inference on the kitti dataset images      
-│   script5_compute_mAP_bdd.ipynb            # compute mean average precison (mAP) on the bdd dataset   
-│   script5_compute_mAP_kitti.ipynb          # compute mean average precison (mAP) on the kitti dataset
-│   video_inference_bdd.py                   # run inference on the bdd dataset video
-│   video_inference_kitti.py                 # run inference on the kitti dataset frame sequence video               
+dataset           # radarscenes dataset folder 
+model_weights     # Model weights folder
+tensorboard       # data folder for loss visualization in tensorboard
+modules
+│───compute_features         # module to compute input graph features for GNN
+│───compute_groundtruth      # Compute ground-truths for model training
+│───data_generator           # dataset generator module
+│───data_utils               # dataset utilities for reading and arranging the input data from files
+│───inference                # model inference modules
+│───neural_net               # neural net modules.
+│───plot_utils               # plotting and visualization.
+│───set_configurations       # create and set configuration class.
+│───readme_artifacts         # readme files.
+script_overfit_gnn.ipynb         # overfit on a very small dataset
+script_train_model_gnn.ipynb     # train GNN model
+script_train_model_gnn_continue_train.ipynb    # continue training
+save_predictions.ipynb           # save predictions inside the folder 'results'
+save_predictions_and_gt.ipynb    # save predictions and gt comparizon plots inside the folder 'results'
+create_gif.ipynb                 # create a gif video from a sequence of saved images               
 ```
 [TOC](#t0)
 
