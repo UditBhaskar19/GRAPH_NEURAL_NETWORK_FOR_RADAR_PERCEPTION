@@ -35,7 +35,13 @@ In summary given as input the radar measurements. We perform the following task 
 
 <br>
 
-![](modules/readme_artifacts/2_result_gif.gif)
+![](modules/readme_artifacts/2_model_architecture.PNG)
+
+*Model Architecture.*
+
+<br>
+
+![](modules/readme_artifacts/3_result_gif.gif)
 
 *Predictions.*
 
