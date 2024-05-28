@@ -5,6 +5,7 @@
 import torch
 from torch import nn
 import torch.nn.functional as F
+import numpy as np
 from typing import Optional, List, Dict
 from collections import namedtuple
 det_named_tuple = namedtuple('det_named_tuple', ['node_class_logits', 'node_reg_deltas', 'edge_class_logits', 'obj_class_logits'])
@@ -13,7 +14,10 @@ from modules.neural_net.gnn.gnn_blocks import ( node_segmentation, node_offset_p
     graph_feature_encoding, link_predictions, object_classification, graph_convolution )
 from modules.neural_net.gnn.gnn_attention import graph_attention
 from modules.neural_net.gnn.loss import Loss_Graph
-from modules.compute_groundtruth.compute_grid_labels import normalize_gt_offsets
+from modules.compute_groundtruth.compute_offsets import normalize_gt_offsets
+from modules.compute_groundtruth.compute_offsets import unnormalize_gt_offsets
+
+from modules.inference.clustering import Simple_DBSCAN
 
 # --------------------------------------------------------------------------------------------------------------
 @ torch.no_grad()
@@ -25,8 +29,13 @@ def compute_accuracy(predicted_class, gt_class):
 
 # --------------------------------------------------------------------------------------------------------------
 class Model_Inference(nn.Module):
-    def __init__(self, net_config):
+    def __init__(self, net_config, extract_proposals=False, eps=1.4):
         super().__init__()
+
+        self.extract_proposals = extract_proposals
+
+        self.reg_mu = net_config.reg_mu
+        self.reg_sigma = net_config.reg_sigma
 
         activation = net_config.activation
         aggregation = net_config.aggregation
@@ -106,13 +115,22 @@ class Model_Inference(nn.Module):
             norm_layer = norm_layer,
             num_groups = num_groups)
         
+        if extract_proposals == True:
+            self.set_param_for_proposal_extraction(eps)
+
+    def set_param_for_proposal_extraction(self, eps):
+        self.extract_proposals = True
+        self.meas_noise_cov = 0.5 * np.eye(2, dtype=np.float32)
+        self.clustering_obj = Simple_DBSCAN(eps)
+        
     def forward(
         self,
         node_features: torch.Tensor,
         edge_features: torch.Tensor,
         edge_index: torch.Tensor,
         adj_matrix: torch.Tensor,
-        cluster_node_idx: List[torch.Tensor],
+        cluster_node_idx: Optional[List[torch.Tensor]] = None,
+        other_features: Optional[torch.Tensor] = None,
         augmented_features: Optional[torch.Tensor] = None):
 
         node_features = self.encode_node_feat(node_features)
@@ -121,13 +139,40 @@ class Model_Inference(nn.Module):
         node_cls_predictions = self.predict_node(node_features)
         node_offsets_predictions = self.predict_offset(node_features)
         link_cls_predictions = self.predict_link(node_features, adj_matrix)
-        obj_cls_predictions = self.predict_class(node_features, cluster_node_idx)
 
-        return \
-            node_cls_predictions, \
-            node_offsets_predictions, \
-            link_cls_predictions, \
-            obj_cls_predictions
+        if cluster_node_idx != None:
+            obj_cls_predictions = self.predict_class(node_features, cluster_node_idx)
+
+        else:
+            # compute offsets & perform dbscan clustering
+            node_offsets_predictions_cpy = node_offsets_predictions.clone().detach()
+            reg_deltas = unnormalize_gt_offsets(node_offsets_predictions_cpy, self.reg_mu, self.reg_sigma)
+            pred_cluster_centers_xy = other_features[:, :2] + reg_deltas
+            self.clustering_obj.cluster_nodes(pred_cluster_centers_xy.detach().cpu().numpy())
+
+            # extract clusters
+            cluster_members_list = []
+            for i in range(self.clustering_obj.num_clusters):
+                cluster_members = np.nonzero(self.clustering_obj.meas_to_cluster_id == i)[0]
+                cluster_members = torch.tensor(cluster_members).to(node_features.device).to(int)
+                cluster_members_list.append(cluster_members)
+
+            # object class prediction
+            obj_cls_predictions = self.predict_class(node_features, cluster_members_list)
+
+        if self.extract_proposals == True:
+            return \
+                node_cls_predictions, \
+                node_offsets_predictions, \
+                link_cls_predictions, \
+                obj_cls_predictions, \
+                cluster_members_list
+        else:
+            return \
+                node_cls_predictions, \
+                node_offsets_predictions, \
+                link_cls_predictions, \
+                obj_cls_predictions
     
 # ---------------------------------------------------------------------------------------------------------------
 class Model_Inference_v1(nn.Module):
