@@ -72,6 +72,7 @@ In summary given as input the radar measurements. We perform the following task 
       <li><a href="#Project-Folder-Structure">Project Folder Structure</a></li>
    </ol>
 </li>
+<li><a href="#Dataset-&-Sensor-Setup">Dataset & Sensor Setup</a></li>
 <li><a href="#Model-Architecture">Model Architecture</a> 
    <ol>
        <li><a href="#Concept-Level-Architecture">Concept Level Architecture</a></li> 
@@ -157,6 +158,15 @@ create_gif.ipynb                 # create a gif video from a sequence of saved i
 [TOC](#t0)
 
 <br>
+
+
+
+
+
+## Dataset & Sensor Setup
+![RadarScenes](https://radar-scenes.com/) dataset is used in this project 
+
+
 
 
 
