@@ -29,6 +29,21 @@ In summary given as input the radar measurements. We perform the following task 
 
 <div align="center">
 
+![](readme_artifacts/1_high_level_concept.PNG)
+
+*GNN Inputs and Outputs.*
+
+</div>
+
+
+
+
+
+
+
+
+<div align="center">
+
 ![](AnchorFree2DObjectDetection/_readme_artifacts/1_model_archi.PNG)
 
 *Anchor Free Network Architecture.*
