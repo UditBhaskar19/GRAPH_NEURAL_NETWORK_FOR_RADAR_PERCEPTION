@@ -19,11 +19,11 @@ One of the critical step in radar based object tracking for perception functions
 <br><br>
 Thus, this project proposes a deep-learning-based transformation of radar point clouds to enable the use of DBSCAN-like clustering techniques with constant threshold parameters for object identification. Additionally, various auxiliary tasks are addressed, including link prediction, node segmentation, and object classification.
 <br><br>
-In summary, given as input the radar measurements. The following task are performed using deep learning:
+In summary, **given as input the radar measurements**. The **following task are performed** using deep learning:
    - **Measurement offset prediction for clustering**
-   - Link prediction for clustering
-   - Measurement classification / Node segmentation
-   - Object classification
+   - **Link prediction for clustering**
+   - **Measurement classification / Node segmentation**
+   - **Object classification**
 
 <br>
 
