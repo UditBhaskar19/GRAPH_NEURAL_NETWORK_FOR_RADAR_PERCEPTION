@@ -33,41 +33,17 @@ In summary given as input the radar measurements. We perform the following task 
 
 *GNN Inputs and Outputs.*
 
-</div>
-
-
-
-
-
-
-
-
-<div align="center">
-
-![](AnchorFree2DObjectDetection/_readme_artifacts/1_model_archi.PNG)
-
-*Anchor Free Network Architecture.*
-
 <br>
 
-![](AnchorFree2DObjectDetection/_readme_artifacts/2_detections.PNG)
+![](modules/readme_artifacts/2_result_gif.gif)
 
-*Detected Bounding Boxes (BDD).*
-
-<br>
-
-![](AnchorFree2DObjectDetection/video_inference/kitti/gif/0007.gif)
-
-*Detections in video (KITTI).*
+*Predictions.*
 
 <br>
 
 </div>
 
 <br>
-
-
-
 
 <details>
 <summary>
