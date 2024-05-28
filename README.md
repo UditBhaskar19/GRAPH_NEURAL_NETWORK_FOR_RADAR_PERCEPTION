@@ -84,8 +84,7 @@ In summary given as input the radar measurements. We perform the following task 
    </ol> 
 </li>
 <li><a href="#Predicted-vs-GT-Clusters-Visualization">Predicted vs GT Clusters Visualization</a></li>
-<li><a href="#Conclusion">Conclusion</a></li>
-<li><a href="#Reference">Reference</a></li>
+<li><a href="#References">References</a></li>
 
 </ul>
 </details>
@@ -220,7 +219,6 @@ create_gif.ipynb                 # create a gif video from a sequence of saved i
 
 <br>
 
-
 [TOC](#t0)
 
 <br>
@@ -236,32 +234,19 @@ create_gif.ipynb                 # create a gif video from a sequence of saved i
 
 <br>
 
-## Conclusion
-<ul>
-<li> Person class suffers from low recall due to much less number of training samples </li>
-<li> The basic building block of the model is weight standardized conv2d followed by group norm and a non-linear activation. This helped in setting the batch size small (6 in this case) so that it fits in the gpu memory. It also helps in keeping the training stable (no NaNs). </li>
-<li>There are ways to improve the performance. Some of them are: fine-tuning the backbone, utilizing several other open source datasets, taking a second stage to improve recall, training the model end to end for different tasks such as segmentation and tracking. These shall be part of future releases </li>
-</ul>
-
-<br>
-
-[TOC](#t0)
-
-<br>
-
-## Reference
+## References
 <ul>
    <li>
 
-   [BDD100K: A Diverse Driving Dataset for Heterogeneous Multitask Learning](https://arxiv.org/pdf/1805.04687.pdf)</li>
+   [RadarScenes: A Real-World Radar Point Cloud Data Set for Automotive Applications](https://arxiv.org/abs/2104.02493)</li>
    <li>
    
-   [FCOS: A simple and strong anchor-free object detector](https://arxiv.org/pdf/2006.09214.pdf)</li>
+   [RadarGNN: Transformation Invariant Graph Neural Network for Radar-based Perception](https://openaccess.thecvf.com/content/CVPR2023W/WAD/papers/Fent_RadarGNN_Transformation_Invariant_Graph_Neural_Network_for_Radar-Based_Perception_CVPRW_2023_paper.pdf)</li>
    <li>
    
-   [HybridNets: End-to-End Perception Network](https://arxiv.org/ftp/arxiv/papers/2203/2203.09035.pdf)</li>
+   [CS224W: Machine Learning with Graphs](https://web.stanford.edu/class/cs224w/)</li>
    <li>
-   https://www.cvlibs.net/datasets/kitti/</li>
+   https://radar-scenes.com/</li>
 </ul>
 
 <br>
