@@ -228,6 +228,32 @@ create_gif.ipynb                 # create a gif video from a sequence of saved i
 
 ## Predicted vs GT Clusters Visualization
 
+#### Sequence 108
+
+![](modules/readme_artifacts/comp_sequence_108.gif)
+
+<br>
+
+#### Sequence 138
+
+![](modules/readme_artifacts/comp_sequence_138.gif)
+
+<br>
+
+
+#### Sequence 147
+
+![](modules/readme_artifacts/comp_sequence_147.gif)
+
+<br>
+
+
+#### Sequence 148
+
+![](modules/readme_artifacts/comp_sequence_148.gif)
+
+<br>
+
 
 
 [TOC](#t0)
