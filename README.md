@@ -51,6 +51,11 @@ In summary given as input the radar measurements. We perform the following task 
 
 <br>
 
+
+
+
+
+
 <details>
 <summary>
 
@@ -70,9 +75,12 @@ In summary given as input the radar measurements. We perform the following task 
 <li><a href="#Model-Architecture">Model Architecture</a> 
    <ol>
        <li><a href="#Concept-Level-Architecture">Concept Level Architecture</a></li> 
-       <li><a href="#Backbone-for-Feature-Computation">Backbone for Feature Computation</a></li> 
-       <li><a href="#Neck-for-Feature-Aggregation">Neck for Feature Aggregation</a></li> 
-       <li><a href="#Head-for-Dense-Object Detection">Head for Dense Object Detection</a></li> 
+       <li><a href="#Node-and-Edge-Embedding">Node and Edge Embedding</a></li> 
+       <li><a href="#Graph-Convolution">Graph Convolution</a></li> 
+       <li><a href="#Graph-Link-Prediction">Graph Link Prediction</a></li> 
+       <li><a href="#Node-Offset-Prediction">Node Offset Prediction</a></li> 
+       <li><a href="#Node-Segmentation">Node Segmentation</a></li> 
+       <li><a href="#Object-Classification">Object Classification</a></li> 
    </ol> 
 </li>
 <li><a href="#Ground-Truth-Generation">Ground Truth Generation</a>
@@ -102,6 +110,9 @@ In summary given as input the radar measurements. We perform the following task 
 </details>
 
 <br>
+
+
+
 
 
 ## About The Project
@@ -170,189 +181,49 @@ create_gif.ipynb                 # create a gif video from a sequence of saved i
 
 
 
-## Exploratory Data Analysis
-To have good performance from a trained object detection model, the training dataset needs to be large, diverse, balanced and the annotation has to be correct. BDD dataset is adequately large to train a resonably good performing model. Below are the data analysis conducted to get an insight about the quality of the dataset where good quality means that the training dataset has to be diverse and balanced.
-
-### Scene and Label Instance
-![](AnchorFree2DObjectDetection/_readme_artifacts/4_eda_class_count.PNG)
-
-<div align="center">
-
-*Number of instances of different classes and scenes.* 
-</div>
-
-<br>
-
-**Observations**
-<ul>
-   <li>There is a huge intra-class as well as inter-clss imbalance in the dataset (depends on how we are considering the intra and inter class).</li>
-   <li>The intra-class imbalance is present in the number of instances of traffic light, where there are much less number of yellow traffic lights. The red and green instances are resonably balanced.</li>
-   <li>The intra-class imbalance is also observed in the number of instances of road vehicles, where the car class has huge number of instances than other classes like truck and bus.</li>
-   <li>The inter-class imbalance can be seen in the number of instances of vehicles and non-vehicles, where the car class has huge number of instances than other classes like person, rider, train etc.</li>
-</ul>
-
-[TOC](#t0)
-<br>
-
-### Bounding box distribution
-![](AnchorFree2DObjectDetection/_readme_artifacts/5_box_distribution.png)
-
-<div align="center">
-
-*Annotated bounding box dimension scatter plot.*
-</div>
-
-<br>
-
-**Observations**
-<ul>
-   <li>From the plot we can observe that there are some boxes that are probably incorrect annotations. These either have extreme aspect ratio or the area is too small</li>
-</ul>
-
-[TOC](#t0)
-<br>
-
-### Wrong annotations
-If we select those boxes from the previous scatter plot that has some **extreme aspect ratio** or the **area is very small**, we would be able to identfy annotation errors. Some of them can be categorized as follows.
-<ul>
-<li> 
-
-**Box area too small**
-
-![](AnchorFree2DObjectDetection/_readme_artifacts/6_box_area_too_small.PNG) 
-
-</li>
-<li> 
-
-**Extreme Box Aspect Ratio**
-
-![](AnchorFree2DObjectDetection/_readme_artifacts/6_box_aspect_ratio_extreme.PNG) 
-
-</li>
-<li> 
-
-**Incorrect Class**
-
-![](AnchorFree2DObjectDetection/_readme_artifacts/6_incorrect_class.PNG) 
-
-</li>
-
-
-[TOC](#t0)
-<br>
-
-### Dataset Modification
-Based on the above analysis the training samples and the dataset annotations are modified to 
-<ul>
-   <li>Simplify the development of object detection model in version 1 by reducing the number of classes and removing the highly imbalanced and irrelevant classes.</li> 
-   <li>Reduce the number of wrong and low quality annotations. </li>
-</ul>
-
-<br>
-
-The modifications are as follows:
-<ul>
-<li>
-
-**Car**, **bus**, **truck** are merged as **vehicle**; **person** and **rider** are merged as **person**. The remaining classes are part of negative class.</li>
-<li>Select boxes that satisfy the below conditions:
-<ul>
-<li> Box width &ge; 5 pixels </li>
-<li> Box heighth &ge; 5 pixels </li>
-<li> 0.1 &le; Box aspect ratio &le; 10 </li>
-</ul></li>
-</ul>
-
-<br>
-
-![](AnchorFree2DObjectDetection/_readme_artifacts/6_dataset_modifications.PNG)
-
-<br>
-
-<div align="center">
-
-**Relevant Scripts (BDD)**
-
-<table>
-<tr><td>
-
-|                         SCRIPT                       |               LINK                 |
-|:----------------------------------------------------:|:------------------------------------------:|
-|    1_1_eda_vis_anno_data.ipynb                       |  [Link](AnchorFree2DObjectDetection/tests/bdd/dataset_utils/1_1_eda_vis_anno_data.ipynb) | 
-|    1_2_eda_plot_label_count_distrib.ipynb            |  [Link](AnchorFree2DObjectDetection/tests/bdd/dataset_utils/1_2_eda_plot_label_count_distrib.ipynb)                                |
-|    1_3_eda_bbox_distrib.ipynb                        |  [Link](AnchorFree2DObjectDetection/tests/bdd/dataset_utils/1_3_eda_bbox_distrib.ipynb)                           |
-|    1_4_eda_vis_different_obj_categories.ipynb        |  [Link](AnchorFree2DObjectDetection/tests/bdd/dataset_utils/1_4_eda_vis_different_obj_categories.ipynb)                |
-|    1_5_eda_identifying_anno_errors.ipynb             |  [Link](AnchorFree2DObjectDetection/tests/bdd/dataset_utils/1_5_eda_identifying_anno_errors.ipynb)       | 
-|    2_1_eda_vis_remapped_anno_data.ipynb              |  [Link](AnchorFree2DObjectDetection/tests/bdd/dataset_utils/2_1_eda_vis_remapped_anno_data.ipynb)                              |
-|    2_2_eda_plot_remapped_label_count_distrib.ipynb   |  [Link](AnchorFree2DObjectDetection/tests/bdd/dataset_utils/2_2_eda_plot_remapped_label_count_distrib.ipynb)                           |
-|    2_3_eda_remapped_bbox_distrib.ipynb               |  [Link](AnchorFree2DObjectDetection/tests/bdd/dataset_utils/2_3_eda_remapped_bbox_distrib.ipynb)               |
-|    2_4_eda_vis_remapped_obj_categories.ipynb         |  [Link](AnchorFree2DObjectDetection/tests/bdd/dataset_utils/2_4_eda_vis_remapped_obj_categories.ipynb)        | 
-|    2_5_eda_identifying_outliers.ipynb                |  [Link](AnchorFree2DObjectDetection/tests/bdd/dataset_utils/2_5_eda_identifying_outliers.ipynb)                               |
-
-</td></tr> 
-</table>
-
-<br>
-
-**Relevant Scripts (KITTI)**
-
-<table>
-<tr><td>
-
-|                         SCRIPT                       |               LINK                 |
-|:----------------------------------------------------:|:------------------------------------------:|
-|    eda_identifying_outliers.ipynb                    |  [Link](AnchorFree2DObjectDetection/tests/kitti/dataset_utils/eda_identifying_outliers.ipynb) | 
-|    eda_plot_remapped_label_count_distrib.ipynb       |  [Link](AnchorFree2DObjectDetection/tests/kitti/dataset_utils/eda_plot_remapped_label_count_distrib.ipynb)                                |
-|    eda_remapped_bbox_distrib.ipynb                   |  [Link](AnchorFree2DObjectDetection/tests/kitti/dataset_utils/eda_remapped_bbox_distrib.ipynb)                           |
-
-</td></tr> 
-</table>
-
-</div>
-
-
-[TOC](#t0)
-<br>
-
-
-
-
-
-
 ## Model Architecture
 
 ### Concept Level Architecture
 
 <br>
 
-![](AnchorFree2DObjectDetection/_readme_artifacts/7_high_level_archi.PNG)
+![](modules/readme_artifacts/2_model_architecture.PNG)
 
-### Backbone for Feature Computation
-
-<br>
-
-![](AnchorFree2DObjectDetection/_readme_artifacts/7_backbone_archi.PNG)
-
-### Neck for Feature Aggregation
+### Node and Edge Embedding
 
 <br>
 
-![](AnchorFree2DObjectDetection/_readme_artifacts/7_bifpn.PNG)
+![](modules/readme_artifacts/3_feature_embed.PNG)
+
+### Graph Convolution
 
 <br>
 
-![](AnchorFree2DObjectDetection/_readme_artifacts/7_bifpn_formulas.PNG)
+![](modules/readme_artifacts/4_graph_conv.PNG)
 
-### Head for Dense Object Detection
-
-![](AnchorFree2DObjectDetection/_readme_artifacts/7_head_archi.PNG)
-
-
-### Architecture Summary
+### Graph Link Prediction
 
 <br>
 
-![](AnchorFree2DObjectDetection/_readme_artifacts/7_summary.PNG)
+![](modules/readme_artifacts/5_link_pred.PNG)
+
+### Node Offset Prediction
+
+<br>
+
+![](modules/readme_artifacts/6_offset_pred.PNG)
+
+### Node Segmentation
+
+<br>
+
+![](modules/readme_artifacts/7_node_class.PNG)
+
+### Object Classification
+
+<br>
+
+![](modules/readme_artifacts/8_object_class.PNG)
 
 
 [TOC](#t0)
