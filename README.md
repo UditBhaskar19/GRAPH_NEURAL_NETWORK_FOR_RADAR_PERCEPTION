@@ -189,11 +189,15 @@ create_gif.ipynb                 # create a gif video from a sequence of saved i
 
 ![](modules/readme_artifacts/2_model_architecture.PNG)
 
+<br>
+
 ### Node and Edge Embedding
 
 <br>
 
 ![](modules/readme_artifacts/3_feature_embed.PNG)
+
+<br>
 
 ### Graph Convolution
 
@@ -201,11 +205,15 @@ create_gif.ipynb                 # create a gif video from a sequence of saved i
 
 ![](modules/readme_artifacts/4_graph_conv.PNG)
 
+<br>
+
 ### Graph Link Prediction
 
 <br>
 
 ![](modules/readme_artifacts/5_link_pred.PNG)
+
+<br>
 
 ### Node Offset Prediction
 
@@ -213,17 +221,23 @@ create_gif.ipynb                 # create a gif video from a sequence of saved i
 
 ![](modules/readme_artifacts/6_offset_pred.PNG)
 
+<br>
+
 ### Node Segmentation
 
 <br>
 
 ![](modules/readme_artifacts/7_node_class.PNG)
 
+<br>
+
 ### Object Classification
 
 <br>
 
 ![](modules/readme_artifacts/8_object_class.PNG)
+
+<br>
 
 
 [TOC](#t0)
