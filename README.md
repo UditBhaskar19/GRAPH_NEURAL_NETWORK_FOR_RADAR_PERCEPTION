@@ -33,13 +33,13 @@ In summary given as input the radar measurements. We perform the following task 
 
 *GNN Inputs and Outputs.*
 
-<br>
+<br><br>
 
 ![](modules/readme_artifacts/2_model_architecture.PNG)
 
 *Model Architecture.*
 
-<br>
+<br><br>
 
 ![](modules/readme_artifacts/3_result_gif.gif)
 
