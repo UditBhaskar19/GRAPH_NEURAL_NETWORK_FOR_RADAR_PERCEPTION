@@ -8,9 +8,8 @@
 
 <br>
 
-[Code](AnchorFree2DObjectDetection) <br>
-[Project Documents](AnchorFree2DObjectDetection/doc) <br>
-[Output Videos](AnchorFree2DObjectDetection/video_inference) <br>
+[Project Document](doc) <br>
+[Output Videos](results) <br>
 
 ## Introduction
 Radar is increasingly recognized as a crucial sensor for Advanced Driver Assistance Systems (ADAS) and autonomous driving (AD) perception tasks. Its ability to **penetrate occlusions**, **withstand adverse weather conditions**, and **operate independently of external lighting sources** positions it as one of the primary sensors for vehicle autonomy. Advancements in automotive radar technology, encompassing both hardware and digital signal processing (DSP) pipelines, have led to the availability of Synthetic Aperture Radar (SAR) in compact form factors suitable for installation on various vehicle types, including cars, trucks, and construction vehicles. Such radars have a high measurement resolution which is beneficial for deep learning based techniques to improve components in radar perception pipelines like clusterijng, tracking and prediction.
@@ -173,6 +172,12 @@ create_gif.ipynb                 # create a gif video from a sequence of saved i
 ![](modules/readme_artifacts/0_sensor_setup.PNG)
 
 *Sensor Setup.*
+
+<br>
+
+![](modules/readme_artifacts/0_input_data_processing.PNG)
+
+*Input Data Processing. For more details refer the [Project Document](doc)*
 
 <br>
 
