@@ -134,6 +134,7 @@ create_gif.ipynb
 
 ### Project Folder Structure
 ```bash
+doc               # project documents
 dataset           # radarscenes dataset folder 
 model_weights     # Model weights folder
 tensorboard       # data folder for loss visualization in tensorboard
