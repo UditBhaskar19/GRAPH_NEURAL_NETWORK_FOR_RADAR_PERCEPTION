@@ -13,14 +13,14 @@
 [Output Videos](AnchorFree2DObjectDetection/video_inference) <br>
 
 ## Introduction
-Radar is increasingly recognized as a crucial sensor for Advanced Driver Assistance Systems (ADAS) and autonomous driving (AD)perception tasks. Its ability to **penetrate occlusions**, **withstand adverse weather conditions**, and **operate independently of external lighting sources** positions it as a primary sensor for vehicle autonomy. Advancements in automotive radar technology, encompassing both hardware and digital signal processing (DSP) pipelines, have led to the availability of Synthetic Aperture Radar (SAR) in compact form factors suitable for installation on various vehicle types, including cars, trucks, and construction vehicles. Such radars have a high measurement resolution which is beneficial for deep learning based techniques to improve components in radar perception pipelines like clusterijng, tracking and prediction.
+Radar is increasingly recognized as a crucial sensor for Advanced Driver Assistance Systems (ADAS) and autonomous driving (AD) perception tasks. Its ability to **penetrate occlusions**, **withstand adverse weather conditions**, and **operate independently of external lighting sources** positions it as one of the primary sensors for vehicle autonomy. Advancements in automotive radar technology, encompassing both hardware and digital signal processing (DSP) pipelines, have led to the availability of Synthetic Aperture Radar (SAR) in compact form factors suitable for installation on various vehicle types, including cars, trucks, and construction vehicles. Such radars have a high measurement resolution which is beneficial for deep learning based techniques to improve components in radar perception pipelines like clusterijng, tracking and prediction.
 <br><br>
 One of the critical step in radar based object tracking for perception functions is the initialization of track hypothyesis. Typically, track hypotheses are established by clustering radar measurements using techniques such as DBSCAN, followed by assigning a unique track ID to each unassociated cluster. The density of the point cloud is heterogeneous within the radar FOV as it depends on various factors like the object type, object shape, location of the object w.r.t the sensor, scene geometry and varous intrinsic properties of the sensor. Traditional clustering algorithms like DBSCAN, employing constant threshold parameters, exhibit suboptimal performance, especially in cluttered scenes.
 <br><br>
 Thus, this project proposes a deep-learning-based transformation of radar point clouds to enable the use of DBSCAN-like clustering techniques with constant threshold parameters for object identification. Additionally, various auxiliary tasks are addressed, including link prediction, node segmentation, and object classification.
 <br><br>
 In summary, given as input the radar measurements. The following task are performed using deep learning:
-   - Measurement offset prediction for clustering
+   - **Measurement offset prediction for clustering**
    - Link prediction for clustering
    - Measurement classification / Node segmentation
    - Object classification
