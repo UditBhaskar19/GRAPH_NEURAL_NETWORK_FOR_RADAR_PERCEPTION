@@ -166,6 +166,18 @@ create_gif.ipynb                 # create a gif video from a sequence of saved i
 ## Dataset & Sensor Setup
 [RadarScenes](https://radar-scenes.com/) dataset is used in this project 
 
+<br>
+
+<div align="center">
+
+![](modules/readme_artifacts/0_sensor_setup.PNG)
+
+*Sensor Setup.*
+
+<br>
+
+</div>
+
 
 
 
