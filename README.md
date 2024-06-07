@@ -40,6 +40,12 @@ In summary, **given as input the radar measurements**. The **following task are 
 
 <br>
 
+![](modules/readme_artifacts/10_tensorboard_plots.PNG)
+
+*Tensorboard Plots.*
+
+<br>
+
 ![](modules/readme_artifacts/9_confusion_mat_test.PNG)
 
 *Normalized Confusion Matrix.*
