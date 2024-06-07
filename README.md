@@ -40,6 +40,12 @@ In summary, **given as input the radar measurements**. The **following task are 
 
 <br>
 
+![](modules/readme_artifacts/9_confusion_mat_test.PNG)
+
+*Normalized Confusion Matrix.*
+
+<br>
+
 ![](modules/readme_artifacts/3_result_gif.gif)
 
 *Predictions.*
