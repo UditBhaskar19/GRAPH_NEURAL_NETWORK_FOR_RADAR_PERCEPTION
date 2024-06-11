@@ -194,19 +194,48 @@ create_gif.ipynb                 # create a gif video from a sequence of saved i
 
 </div>
 
+<br>
+
 In this project, only dynamic measurements are considered as inputs to the model to reduce computational load. The pre-processing pipeline involves the following steps:
 
 - **Temporal Sliding Window:**
 A temporal sliding window of size 10 is employed, which corresponds to approximately 155 milliseconds. This sliding window technique is used to accumulate radar frames, providing a short-term history of the dynamic environment.
 
 - **Transformation to Vehicle Frame:**
-The accumulation process begins by transforming the radar measurements from the sensor frame to the vehicle frame. This step is crucial for standardizing the radar data, ensuring that all measurements are in a common reference frame aligned with the vehicle’s coordinate system.
+The accumulation process begins by transforming the radar measurements from the sensor frame to the vehicle frame. This step is crucial to ensure that all measurements are in a common reference frame.
 
 - **Ego-Motion Compensation:**
 To account for the motion of the ego-vehicle, ego-motion compensation is applied. This involves adjusting the radar measurements to correct for the vehicle's movement from the previous time step to the current time step. This compensation ensures that the dynamic measurements accurately reflect the positions of objects relative to the moving vehicle.
 
 - **Region of Interest Filtering:**
 Finally, the radar measurements are filtered to retain only those within a pre-defined region of interest (ROI) around the ego-vehicle. This region is defined as a 100-meter by 100-meter area centered on the vehicle. By focusing on this specific area, the computational load is further reduced while maintaining relevant data for model input.
+
+<br>
+
+The detailed steps are depicted as the follows
+
+<div align="center">
+
+![](modules/readme_artifacts/0_dyn_meas_id.PNG)
+
+*Procedure to identify dynamic measurements.*
+
+<br>
+
+![](modules/readme_artifacts/0_cts.PNG)
+
+*Coordinate transformation of measurements from sensor frame to vehicle frame.*
+
+<br>
+
+![](modules/readme_artifacts/0_ego_comp.PNG)
+
+*Ego-motion compensation procedure.*
+
+</div>
+
+<br>
+
 
 [TOC](#t0)
 
