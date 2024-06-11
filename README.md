@@ -187,6 +187,8 @@ create_gif.ipynb                 # create a gif video from a sequence of saved i
 
 *Sensor Setup.*
 
+<br>
+
 ![](modules/readme_artifacts/all_radar_meas_short_seq.GIF)
 
 *Radar Scan.*
