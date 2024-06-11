@@ -100,15 +100,27 @@ def compute_gt_and_pred_objects(
         cluster_mean_list_gt, cluster_cov_list_gt, cluster_size_gt \
             = compute_proposals(cluster_members_list_gt, px, py, detector.meas_noise_cov)
         
+        meas_idx = np.arange(px.shape[0])
+        
+        for i, cluster_members in enumerate(cluster_members_list_pred):
+            cluster_meas_idx = meas_idx[cluster_members.detach().cpu().numpy()]
+            cluster_members_list_pred[i] = set(cluster_meas_idx)
+
+        for i, cluster_members in enumerate(cluster_members_list_gt):
+            cluster_meas_idx = meas_idx[cluster_members.detach().cpu().numpy()]
+            cluster_members_list_gt[i] = set(cluster_meas_idx)
+        
         # -----------------------------------------------------------------------------------------------------
         # keep only the valid objects
+        filtered_cluster_member_list_pred = []
         filtered_cluster_mean_list_pred = []
         filtered_cluster_cov_list_pred = []
         filtered_cluster_size_pred = []
         filtered_obj_class_pred = []
-        for cluster_mean, cluster_cov, cluster_size, obj_cls in \
-            zip(cluster_mean_list_pred, cluster_cov_list_pred, cluster_size_pred, obj_class_pred):
+        for cluster_mem, cluster_mean, cluster_cov, cluster_size, obj_cls in \
+            zip(cluster_members_list_pred, cluster_mean_list_pred, cluster_cov_list_pred, cluster_size_pred, obj_class_pred):
             if cluster_size > cluster_size_threshold:
+                filtered_cluster_member_list_pred.append(cluster_mem)
                 filtered_cluster_mean_list_pred.append(cluster_mean)
                 filtered_cluster_cov_list_pred.append(cluster_cov)
                 filtered_cluster_size_pred.append(cluster_size)
@@ -116,23 +128,27 @@ def compute_gt_and_pred_objects(
 
         # -----------------------------------------------------------------------------------------------------
         # keep only the valid objects
+        filtered_cluster_member_list_gt = []
         filtered_cluster_mean_list_gt = []
         filtered_cluster_cov_list_gt = []
         filtered_cluster_size_gt = []
         filtered_obj_class_gt = []
-        for cluster_mean, cluster_cov, cluster_size, obj_cls in \
-            zip(cluster_mean_list_gt, cluster_cov_list_gt, cluster_size_gt, obj_class_gt):
+        for cluster_mem, cluster_mean, cluster_cov, cluster_size, obj_cls in \
+            zip(cluster_members_list_gt, cluster_mean_list_gt, cluster_cov_list_gt, cluster_size_gt, obj_class_gt):
             if cluster_size > 1:
+                filtered_cluster_member_list_gt.append(cluster_mem)
                 filtered_cluster_mean_list_gt.append(cluster_mean)
                 filtered_cluster_cov_list_gt.append(cluster_cov)
                 filtered_cluster_size_gt.append(cluster_size)
                 filtered_obj_class_gt.append(obj_cls)
 
     else: 
+        filtered_cluster_member_list_pred = []
         filtered_obj_class_pred = []
         filtered_cluster_mean_list_pred = []
         filtered_cluster_cov_list_pred = []
         filtered_cluster_size_pred = []
+        filtered_cluster_member_list_gt = []
         filtered_obj_class_gt = []
         filtered_cluster_mean_list_gt = []
         filtered_cluster_cov_list_gt = []
@@ -140,17 +156,19 @@ def compute_gt_and_pred_objects(
      
     return {
         'obj_class_pred': filtered_obj_class_pred,
+        'cluster_member_list_pred': filtered_cluster_member_list_pred,
         'cluster_mean_list_pred': filtered_cluster_mean_list_pred,
         'cluster_cov_list_pred': filtered_cluster_cov_list_pred,
         'cluster_size_pred': filtered_cluster_size_pred,
+        'cluster_member_list_gt': filtered_cluster_member_list_gt,
         'obj_class_gt': filtered_obj_class_gt,
         'cluster_mean_list_gt': filtered_cluster_mean_list_gt,
         'cluster_cov_list_gt': filtered_cluster_cov_list_gt,
-        'cluster_size_gt': filtered_cluster_size_gt,
+        'cluster_size_gt': filtered_cluster_size_gt
     }
 
 # ---------------------------------------------------------------------------------------------------------------
-def compute_gt_and_pred_associations(det_and_gt_clusters, eps):
+def compute_gt_and_pred_associations(det_and_gt_clusters, eps, association_criteria='inv_iou'):
 
     condition1 = len(det_and_gt_clusters['cluster_mean_list_pred']) > 0 and len(det_and_gt_clusters['cluster_mean_list_gt']) > 0 
     condition2 = len(det_and_gt_clusters['cluster_mean_list_pred']) == 0 and len(det_and_gt_clusters['cluster_mean_list_gt']) > 0
@@ -170,16 +188,27 @@ def compute_gt_and_pred_associations(det_and_gt_clusters, eps):
         cluster_mean_pred = np.expand_dims(cluster_mean_pred, axis=0)
         l2_dist = np.linalg.norm(cluster_mean_gt - cluster_mean_pred, axis=-1)
 
+        cluster_mem_gt = det_and_gt_clusters['cluster_member_list_gt']
+        cluster_mem_pred = det_and_gt_clusters['cluster_member_list_pred']
+        inv_ious_mat = np.zeros((len(cluster_mem_gt), len(cluster_mem_pred)), dtype=np.float32)
+        for row_idx in range(len(cluster_mem_gt)):
+            for col_idx in range(len(cluster_mem_pred)):
+                iou = len(cluster_mem_gt[row_idx] & cluster_mem_pred[col_idx]) \
+                    / len(cluster_mem_gt[row_idx] | cluster_mem_pred[col_idx])
+                inv_ious_mat[row_idx, col_idx] = 1 - iou
+
+        if association_criteria == 'inv_iou': dist_mat = inv_ious_mat
+        elif association_criteria == 'l2_norm': dist_mat = l2_dist
         associations = []
         distances = []
-
-        min_num_objects = np.min(l2_dist.shape)
+        
+        min_num_objects = np.min(dist_mat.shape)
         for i in range(min_num_objects):
-            coordinates = np.stack(np.nonzero(l2_dist == np.min(l2_dist)), axis=-1)[0]
+            coordinates = np.stack(np.nonzero(dist_mat == np.min(dist_mat)), axis=-1)[0]
             associations.append(coordinates)
-            distances.append(l2_dist[coordinates[0], coordinates[1]])
-            l2_dist[coordinates[0], :] = VERY_LARGE_NUM
-            l2_dist[:, coordinates[1]] = VERY_LARGE_NUM
+            distances.append(dist_mat[coordinates[0], coordinates[1]])
+            dist_mat[coordinates[0], :] = VERY_LARGE_NUM
+            dist_mat[:, coordinates[1]] = VERY_LARGE_NUM
 
         associations = np.stack(associations, axis=0)
         associations = associations[np.array(distances) <= eps]

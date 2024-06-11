@@ -13,7 +13,7 @@ det_named_tuple = namedtuple('det_named_tuple', ['node_class_logits', 'node_reg_
 from modules.neural_net.gnn.gnn_blocks import ( node_segmentation, node_offset_predictions, node_predictions,
     graph_feature_encoding, link_predictions, object_classification, graph_convolution )
 from modules.neural_net.gnn.gnn_attention import graph_attention
-from modules.neural_net.gnn.loss import Loss_Graph
+from modules.neural_net.gnn.loss import Loss_Graph, Loss_Object_Class
 from modules.compute_groundtruth.compute_offsets import normalize_gt_offsets
 from modules.compute_groundtruth.compute_offsets import unnormalize_gt_offsets
 
@@ -117,6 +117,20 @@ class Model_Inference(nn.Module):
         
         if extract_proposals == True:
             self.set_param_for_proposal_extraction(eps)
+
+    @staticmethod
+    def freeze_weights(nn_module):
+        for param in nn_module.parameters():
+            param.requires_grad = False
+        return nn_module
+
+    def freeze_layers_except_object_class_predictor(self):
+        self.encode_node_feat = self.freeze_weights(self.encode_node_feat)
+        self.encode_edge_feat = self.freeze_weights(self.encode_edge_feat)
+        self.pass_messages = self.freeze_weights(self.pass_messages)
+        self.predict_node = self.freeze_weights(self.predict_node)
+        self.predict_offset = self.freeze_weights(self.predict_offset)
+        self.predict_link = self.freeze_weights(self.predict_link)
 
     def set_param_for_proposal_extraction(self, eps):
         self.extract_proposals = True
@@ -451,4 +465,46 @@ class Model_Training(nn.Module):
         
         return loss, accuracy
     
+# ---------------------------------------------------------------------------------------------------------------
+class Model_Object_Classifier_Finetuning(nn.Module):
+    def __init__(self, net_config):
+        super().__init__()   
+        self.pred = Model_Inference(net_config, extract_proposals=True, eps=net_config.clustering_eps)
+        self.loss = Loss_Object_Class(net_config)
+
+    def forward(
+        self,
+        node_features: List[torch.Tensor],
+        edge_features: List[torch.Tensor],
+        other_features: List[torch.Tensor],
+        edge_index: List[torch.Tensor],
+        adj_matrix: List[torch.Tensor],
+        node_class_labels: List[torch.Tensor]):
+
+        obj_cls_gt_list = []
+        obj_cls_pred_list = []
+        
+        for node_feat, edge_feat, other_feat, edge_idx, adj_mat, node_gt_class \
+            in zip(node_features, edge_features, other_features, edge_index, adj_matrix, node_class_labels):
+            
+            node_cls_pred, node_reg_pred, edge_cls_pred, obj_cls_pred, cluster_mem_list \
+                = self.pred(node_features = node_feat, 
+                            edge_features = edge_feat, 
+                            other_features = other_feat,
+                            edge_index = edge_idx, 
+                            adj_matrix = adj_mat)
+            
+            obj_cls_pred_list.append(obj_cls_pred)
+            
+            for cluster_mem in cluster_mem_list:
+                cluster_meas_labels = node_gt_class[cluster_mem]
+                obj_cls_gt_list.append(torch.argmax(torch.bincount(cluster_meas_labels)))
+
+        obj_cls_gt = torch.stack(obj_cls_gt_list, dim=0)
+        obj_cls_pred = torch.concat(obj_cls_pred_list, dim=0)
+        loss = self.loss(obj_cls_pred, obj_cls_gt)
+        accuracy = compute_accuracy(obj_cls_pred, obj_cls_gt)
+        return loss, accuracy
+
+            
 

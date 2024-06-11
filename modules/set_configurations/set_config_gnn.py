@@ -16,6 +16,7 @@ class config:
         self.dataset_path = configurations['DIRECTORIES']['dataset_dir']
         self.model_weights_dir = configurations['DIRECTORIES']['model_weights_dir']
         self.weights_name = configurations['DIRECTORIES']['weights_name']
+        self.finetuned_weights_name = configurations['DIRECTORIES']['finetuned_weights_name']
         # ----------------------------------------------------------------------------------------------------
         # parameter that specified how much measurement history to accumulate, and how to construct the graph
         # ----------------------------------------------------------------------------------------------------
@@ -103,3 +104,11 @@ class config:
         self.shuffle_training_samples = configurations['DATASET']['shuffle_training_samples']
         self.shuffle_validation_samples = configurations['DATASET']['shuffle_validation_samples']
         self.include_region_confidence = configurations['DATASET_INFO']['include_region_confidence']
+        # ----------------------------------------------------
+        # Set the object classification fine tuning parameters
+        # ----------------------------------------------------
+        self.optim_finetuning = configurations['FINETUNING']['optim']
+        self.max_train_iter_finetuning = configurations['FINETUNING']['max_training_iterations']
+        self.learning_rate_finetuning = configurations['FINETUNING']['learning_rate']
+        self.weight_decay_finetuning = configurations['FINETUNING']['weight_decay']
+        self.clustering_eps = configurations['FINETUNING']['clustering_eps']

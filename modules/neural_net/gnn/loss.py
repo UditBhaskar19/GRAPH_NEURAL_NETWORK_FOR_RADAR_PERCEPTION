@@ -73,4 +73,17 @@ class Loss_Graph(nn.Module):
             'loss_node_cls': node_cls_loss * self.node_cls_loss_weight,
             'loss_node_reg': node_reg_loss * self.node_reg_loss_weight,
             'loss_edge_cls': edge_cls_loss * self.edge_cls_loss_weight,
-            'loss_obj_cls': obj_cls_loss * self.obj_cls_loss_weight }    
+            'loss_obj_cls': obj_cls_loss * self.obj_cls_loss_weight }  
+
+# --------------------------------------------------------------------------------------------------------------  
+class Loss_Object_Class(nn.Module):
+    def __init__(self, net_config):
+        super().__init__()
+        self.num_classes = net_config.num_classes
+        self.obj_cls_loss = CE_loss()
+        
+    def forward(self, pred_obj_class_logits, gt_obj_class_logits):
+        gt_obj_class_logits = torch.nn.functional.one_hot(gt_obj_class_logits, self.num_classes).to(torch.float32)
+        obj_cls_loss = self.obj_cls_loss(pred_obj_class_logits, gt_obj_class_logits)
+        obj_cls_loss = obj_cls_loss.sum() / obj_cls_loss.shape[0]
+        return obj_cls_loss 
