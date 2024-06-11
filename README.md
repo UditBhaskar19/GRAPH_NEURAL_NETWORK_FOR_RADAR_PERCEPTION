@@ -84,6 +84,7 @@ In summary, **given as input the radar measurements**. The **following task are 
    </ol>
 </li>
 <li><a href="#Dataset-and-Sensor-Setup">Dataset and Sensor Setup</a></li>
+<li><a href="#Data-Preprocessing">Data Preprocessing</a></li>
 <li><a href="#Model-Architecture">Model Architecture</a> 
    <ol>
        <li><a href="#Concept-Level-Architecture">Concept Level Architecture</a></li> 
@@ -186,7 +187,15 @@ create_gif.ipynb                 # create a gif video from a sequence of saved i
 
 *Sensor Setup.*
 
+</div>
+
 <br>
+
+## Data Preprocessing
+
+<br>
+
+<div align="center">
 
 ![](modules/readme_artifacts/0_input_data_processing.PNG)
 
