@@ -10,11 +10,11 @@
 
 </div>
 
+<br>
+
 [![Generic badge](https://img.shields.io/badge/License-MIT-<COLOR>.svg?style=for-the-badge)](https://github.com/UditBhaskar19/ANCHOR_FREE_OBJECT_DETECTOR_FOR_CAMERA/blob/main/LICENSE) 
 [![PyTorch - Version](https://img.shields.io/badge/PYTORCH-2.0.1+-red?style=for-the-badge&logo=pytorch)](https://pytorch.org/get-started/locally/) 
 [![Python - Version](https://img.shields.io/badge/PYTHON-3.11+-red?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/downloads/)
-
-<br>
 
 [Project Document](doc) <br>
 [Output Videos](results) <br>
@@ -61,8 +61,6 @@ In summary, **given as input the radar measurements**. The **following task are 
 <br>
 
 </div>
-
-<br>
 
 
 
@@ -190,8 +188,6 @@ create_gif.ipynb                 # create a gif video from a sequence of saved i
 *Sensor Setup.*
 
 <br>
-
-![](https://github.com/UditBhaskar19/ENVIRONMENT_REPRESENTATION_USING_RADAR/blob/main/P1_static_environment_representation/readme_artifacts/all_radar_meas_short_seq.gif)
 
 ![](modules/readme_artifacts/all_radar_meas_short_seq.gif)
 
