@@ -2,7 +2,9 @@
 
 # Multi-task Learning using Message Passing Graph Neural Network for Radar based Perception Functions
 
-![](https://github.com/UditBhaskar19/ENVIRONMENT_REPRESENTATION_USING_RADAR/blob/main/P1_static_environment_representation/readme_artifacts/all_radar_meas_short_seq.gif)
+![](modules/readme_artifacts/3_result_gif.gif)
+
+*GNN Model Predictions.*
 
 [![Generic badge](https://img.shields.io/badge/License-MIT-<COLOR>.svg?style=for-the-badge)](https://github.com/UditBhaskar19/ANCHOR_FREE_OBJECT_DETECTOR_FOR_CAMERA/blob/main/LICENSE) 
 [![PyTorch - Version](https://img.shields.io/badge/PYTORCH-2.0.1+-red?style=for-the-badge&logo=pytorch)](https://pytorch.org/get-started/locally/) 
@@ -51,12 +53,6 @@ In summary, **given as input the radar measurements**. The **following task are 
 ![](modules/readme_artifacts/9_confusion_mat_test.PNG)
 
 *Normalized Confusion Matrix.*
-
-<br>
-
-![](modules/readme_artifacts/3_result_gif.gif)
-
-*Predictions.*
 
 <br>
 
