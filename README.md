@@ -212,7 +212,9 @@ Finally, the radar measurements are filtered to retain only those within a pre-d
 
 <br>
 
-The detailed steps are depicted as the follows
+**The detailed steps are depicted as the follows**
+
+<br>
 
 <div align="center">
 
