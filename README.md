@@ -191,7 +191,7 @@ create_gif.ipynb                 # create a gif video from a sequence of saved i
 
 <br>
 
-![](modules/readme_artifacts/all_radar_meas_short_seq.GIF)
+![](https://github.com/UditBhaskar19/ENVIRONMENT_REPRESENTATION_USING_RADAR/blob/main/P1_static_environment_representation/readme_artifacts/all_radar_meas_short_seq.gif)
 
 *Radar Scan.*
 
