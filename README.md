@@ -189,8 +189,6 @@ create_gif.ipynb                 # create a gif video from a sequence of saved i
 
 </div>
 
-<br>
-
 [TOC](#t0)
 
 <br>
