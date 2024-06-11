@@ -5,6 +5,7 @@ DIRECTORIES:
   dataset_dir: 'dataset/RadarScenesData/data'
   model_weights_dir: 'model_weights/gnn'
   weights_name: 'graph_based_detector.pt'
+  finetuned_weights_name: graph_based_detector_finetuned.pt
 
 DATA_SELECTION_PARAM:
   reject_static_meas_by_ransac: False  # dont use 'ransac' to remove stationary measurements
@@ -51,7 +52,6 @@ GNN_ARCHITECTURE:
   num_groups: None
   reg_mu: [0, 0]
   reg_sigma: [8, 4]
-  # reg_sigma: [4, 2]
   aggregation: 'add'
   node_feat_enc_stem_channels: [256, 128, 64]
   edge_feat_enc_stem_channels: [256, 128, 128, 64]
@@ -75,6 +75,13 @@ OPTIMIZATION:
   max_training_iterations: 200000 
   learning_rate: 0.005
   weight_decay: 0.0001
+
+FINETUNING:
+  optim: sgd
+  max_training_iterations: 10000 
+  learning_rate: 0.0005
+  weight_decay: 0.0001
+  clustering_eps: 1.5
 
 DATASET:
   num_training_samples: 300000         # to use all the samples put -1
