@@ -350,7 +350,7 @@ Node features, Edge features and Adjacency Info is given as inputs to the model 
 
 <br>
 
-![](modules/readme_artifacts/11_adj_mat.PNG)
+![](modules/readme_artifacts/12_adj_mat.PNG)
 
 *Adjacency Information Computation.*
 
