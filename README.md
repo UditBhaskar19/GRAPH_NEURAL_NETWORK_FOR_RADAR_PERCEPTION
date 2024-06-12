@@ -309,7 +309,7 @@ In conclusion, Graph Neural Networks offer a robust and efficient approach to pr
 
 The architecture can be summarized in terms of some key building blocks which are as follows:
 - **Input Node and Edge Feature Embedding Blocks**
-The initial stage of the architecture involves pre-processing the node and edge input features. This stage, which can be considered the Network Backbone, includes the following components:
+The initial stage of the architecture involves pre-processing the node and edge input features. This stage, which can be considered the **Network Base**, includes the following components:
       <ul>
          <li> **Node Embedding Block:** Embeds the input features associated with each node into a higher-dimensional space, capturing more complex feature representations. </li>
          <li> **Edge Embedding Block:** Similarly, this block embeds the input features of the edges. </li>
@@ -317,11 +317,19 @@ The initial stage of the architecture involves pre-processing the node and edge 
 The output from the edge embedding block is fed into each of the Graph Convolution Blocks, ensuring that edge features are utilized effectively during feature aggregation and update. This approach not only enhances the model's ability to leverage edge information but also facilitates efficient gradient flow during model training, contributing to more stable and effective learning.
 
 - **Graph Convolution Layers**
-Here the information from adjacent nodes and edges are aggregated and updated consequtively so that the receptive field increases and the nodes are updated with information using nodes that are 'k' hops away. This stage can be considered as Network Neck.
+In this stage, referred to as the **Network Neck**, information from adjacent nodes and edges is aggregated and updated iteratively. This process allows the receptive field to expand, enabling nodes to incorporate information from nodes that are multiple hops away. Specifically, the layers perform the following functions:
+      <ul>
+         <li> **Aggregation:** Gathers features from neighboring nodes and edges. </li>
+         <li> **Update:** Integrates the aggregated features to update the node representations. </li>
+      </ul> <br>
+Through consecutive applications of these operations, nodes progressively gain information from their broader network context, enhancing the overall feature representations.
 
-- **Task Specific Block**
-Here the aggregated feature embeddings are post-processed for each tasks specific predictions. This stage can be considered as Network Head
-
+- **Task Specific Blocks**
+The final stage of the architecture, known as the Network Head, is designed for post-processing the aggregated feature embeddings to make task-specific predictions. This block is tailored to the specific requirements of the task at hand, ensuring that the processed features are transformed into the desired output format. Key functions in this block include:
+      <ul>
+         <li> **Post-Processing:** Applies additional layers or operations to refine the features for the specific task. </li>
+         <li> **Prediction:** Generates the final output based on the refined features, which could include classification scores, regression outputs, or other task-specific results. </li>
+      </ul> <br>
 
 <br>
 
