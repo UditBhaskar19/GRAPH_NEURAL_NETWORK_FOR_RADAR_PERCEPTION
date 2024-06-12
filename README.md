@@ -338,9 +338,15 @@ Node features, Edge features and Adjacency Info is given as inputs to the model 
 
 <div align="center">
 
-![](modules/readme_artifacts/11_input_feat.PNG)
+![](modules/readme_artifacts/11_node_input_feat.PNG)
 
-*Node and Edge Input Features.*
+*Node Input Features.*
+
+<br>
+
+![](modules/readme_artifacts/11_edge_input_feat.PNG)
+
+*Edge Input Features.*
 
 <br>
 
