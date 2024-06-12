@@ -307,6 +307,22 @@ In conclusion, Graph Neural Networks offer a robust and efficient approach to pr
 
 ![](modules/readme_artifacts/2_model_architecture.PNG)
 
+The architecture can be summarized in terms of some key building blocks which are as follows:
+- **Input Node and Edge Feature Embedding Blocks**
+The initial stage of the architecture involves pre-processing the node and edge input features. This stage, which can be considered the Network Backbone, includes the following components:
+   <ul>
+      <li> **Node Embedding Block:** Embeds the input features associated with each node into a higher-dimensional space, capturing more complex feature representations. </li>
+      <li> **Edge Embedding Block:** Similarly, this block embeds the input features of the edges. </li>
+   </ul>
+
+
+- **Graph Convolution Layers**
+Here the information from adjacent nodes and edges are aggregated and updated consequtively so that the receptive field increases and the nodes are updated with information using nodes that are 'k' hops away. This stage can be considered as Network Neck.
+
+- **Task Specific Block**
+Here the aggregated feature embeddings are post-processed for each tasks specific predictions. This stage can be considered as Network Head
+
+
 <br>
 
 ### Node and Edge Embedding
