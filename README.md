@@ -89,6 +89,7 @@ In summary, **given as input the radar measurements**. The **following task are 
 <li><a href="#Data-Preprocessing">Data Preprocessing</a></li>
 <li><a href="#Model-Architecture">Model Architecture</a> 
    <ol>
+       <li><a href="#Why-Graph-Neural-Network">Why Graph Neural Network</a></li>
        <li><a href="#Concept-Level-Architecture">Concept Level Architecture</a></li> 
        <li><a href="#Node-and-Edge-Embedding">Node and Edge Embedding</a></li> 
        <li><a href="#Graph-Convolution">Graph Convolution</a></li> 
@@ -268,6 +269,8 @@ Finally, the radar measurements are filtered to retain only those within a pre-d
 
 
 ## Model Architecture
+
+### Why Graph Neural Network
 
 Radar point cloud data presents unique challenges for processing, primarily due to its sparse nature and the lack of an inherent order among the points. Traditional methods like voxelization into 2D or 3D grids, followed by Convolutional Neural Network (CNN) architectures, face significant limitations when applied to radar data:
 
