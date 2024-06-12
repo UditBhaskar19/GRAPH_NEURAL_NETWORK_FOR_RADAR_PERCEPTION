@@ -314,6 +314,7 @@ The initial stage of the architecture involves pre-processing the node and edge 
          <li> **Node Embedding Block:** Embeds the input features associated with each node into a higher-dimensional space, capturing more complex feature representations. </li>
          <li> **Edge Embedding Block:** Similarly, this block embeds the input features of the edges. </li>
       </ul>
+
 The output from the edge embedding block is fed into each of the Graph Convolution Blocks, ensuring that edge features are utilized effectively during feature aggregation and update. This approach not only enhances the model's ability to leverage edge information but also facilitates efficient gradient flow during model training, contributing to more stable and effective learning.
 
 - **Graph Convolution Layers**
