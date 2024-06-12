@@ -333,6 +333,25 @@ The final stage of the architecture, known as the Network Head, is designed for 
 
 <br>
 
+### Model Inputs: 
+Node features, Edge features and Adjacency Info is given as inputs to the model which is illustrated in the following figures.
+
+<div align="center">
+
+![](modules/readme_artifacts/11_input_feat.PNG)
+
+*Node and Edge Input Features.*
+
+<br>
+
+![](modules/readme_artifacts/11_adj_mat.PNG)
+
+*Adjacency Information Computation.*
+
+<br>
+
+</div>
+
 ### Node and Edge Embedding
 
 <br>
