@@ -231,7 +231,7 @@ Finally, the radar measurements are filtered to retain only those within a pre-d
 
 <br>
 
-**The detailed steps are depicted as the follows**
+**The detailed steps are as follows**
 
 <br>
 
@@ -268,6 +268,33 @@ Finally, the radar measurements are filtered to retain only those within a pre-d
 
 
 ## Model Architecture
+
+Radar point cloud data presents unique challenges for processing, primarily due to its sparse nature and the lack of an inherent order among the points. Traditional methods like voxelization into 2D or 3D grids, followed by Convolutional Neural Network (CNN) architectures, face significant limitations when applied to radar data:
+
+- **Information Loss**: 
+Voxelization can result in a significant loss of information. Given the already sparse nature of radar data, this loss can be detrimental to the accuracy and effectiveness of the data processing.
+- **Ineffective Information Processing:**
+Many voxels remain empty due to the sparsity of radar data. This leads to inefficient use of computational resources, as the CNN has to process a large number of empty voxels.
+- **Memory Intensity:** 
+CNN architectures are typically memory-intensive, which can be problematic with resourse constrained systems.
+
+Given these challenges, there is a need for an architecture that can effectively process sparse radar data in a manner similar to how CNNs process image pixels. This is where Graph Neural Networks (GNNs) come into play which has the following advantages
+
+- **Effective Handling of Sparsity:**
+GNNs are well-suited for handling sparse data. Unlike voxelization, GNNs do not require the data to be mapped onto a dense grid. Instead, the radar point cloud is represented as a graph, where each point is a node, and edges connect neighboring nodes based on certain criteria, such as proximity.
+
+- **Generalized Convolution Over Unordered Sets:**
+In a GNN, each node can aggregate information from its neighboring nodes and edges. This process is akin to a generalized form of convolution that operates over unordered point sets. This allows for effective feature extraction and information propagation across the radar point cloud.
+
+- **Permutation Invariant and Equivariant Operations:**
+One of the key strengths of GNNs is their ability to perform permutation invariant and equivariant operations. This means that the output of the network is independent of the order of the input points. To achieve this, GNNs use operations such as:
+**Permutation Invariant Operations:** Sum, average, and attention-weighted sum, which ensure that the aggregate information remains consistent regardless of the input order.
+**Permutation Equivariant Operations:** Shared Multi-Layer Perceptrons (MLPs) per input feature vector and self-attention blocks, which maintain the relational structure between input features.
+
+- **Efficient Information Processing:**
+By utilizing graph-based representations and operations, GNNs can efficiently process the radar point cloud without the overhead of dealing with empty voxels or excessive memory usage. This leads to a more streamlined and effective processing pipeline.
+
+In conclusion, Graph Neural Networks offer a robust and efficient approach to processing radar point cloud data. By leveraging the natural structure of graphs and utilizing permutation invariant and equivariant operations, GNNs overcome the limitations of traditional voxelization and CNN-based methods. This makes GNNs an ideal choice for handling the sparse and unordered nature of radar data, ensuring more accurate and computationally efficient processing
 
 ### Concept Level Architecture
 
