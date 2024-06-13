@@ -93,12 +93,14 @@ In summary, **given as input the radar measurements**. The **following task are 
        <li><a href="#Concept-Level-Architecture">Concept Level Architecture</a></li>
        <li><a href="#Model-Inputs">Model Inputs</a></li> 
        <li><a href="#Detailed-Architecture">Detailed Architecture</a></li>
-       <li><a href="#Node-and-Edge-Embedding">Node and Edge Embedding</a></li> 
-       <li><a href="#Graph-Convolution">Graph Convolution</a></li> 
-       <li><a href="#Graph-Link-Prediction">Graph Link Prediction</a></li> 
-       <li><a href="#Node-Offset-Prediction">Node Offset Prediction</a></li> 
-       <li><a href="#Node-Segmentation">Node Segmentation</a></li> 
-       <li><a href="#Object-Classification">Object Classification</a></li> 
+       <ol>
+            <li><a href="#Node-and-Edge-Embedding">Node and Edge Embedding</a></li> 
+            <li><a href="#Graph-Convolution">Graph Convolution</a></li> 
+            <li><a href="#Graph-Link-Prediction">Graph Link Prediction</a></li> 
+            <li><a href="#Node-Offset-Prediction">Node Offset Prediction</a></li> 
+            <li><a href="#Node-Segmentation">Node Segmentation</a></li> 
+            <li><a href="#Object-Classification">Object Classification</a></li>
+      </ol> 
    </ol> 
 </li>
 <li><a href="#Predicted-vs-GT-Clusters-Visualization">Predicted vs GT Clusters Visualization</a></li>
@@ -387,7 +389,9 @@ Edges typically represent interactions and relationships between connected nodes
 
 <br>
 
-### Node and Edge Embedding
+### Detailed Architecture
+
+#### Node and Edge Embedding
 
 <br>
 
@@ -395,7 +399,7 @@ Edges typically represent interactions and relationships between connected nodes
 
 <br>
 
-### Graph Convolution
+#### Graph Convolution
 
 <br>
 
@@ -403,7 +407,7 @@ Edges typically represent interactions and relationships between connected nodes
 
 <br>
 
-### Graph Link Prediction
+#### Graph Link Prediction
 
 <br>
 
@@ -411,7 +415,7 @@ Edges typically represent interactions and relationships between connected nodes
 
 <br>
 
-### Node Offset Prediction
+#### Node Offset Prediction
 
 <br>
 
@@ -419,7 +423,7 @@ Edges typically represent interactions and relationships between connected nodes
 
 <br>
 
-### Node Segmentation
+#### Node Segmentation
 
 <br>
 
@@ -427,7 +431,7 @@ Edges typically represent interactions and relationships between connected nodes
 
 <br>
 
-### Object Classification
+#### Object Classification
 
 <br>
 
