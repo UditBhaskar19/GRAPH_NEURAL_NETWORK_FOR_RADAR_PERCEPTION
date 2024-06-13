@@ -461,6 +461,22 @@ This is framed as a sub-graph prediction problem. First an array of node index i
 
 ## Model Output Postprocessing
 
+Our end goal is to detect valid objects and predict their classes. An overview of the approach is shown in the below figure.
+
+The adjacency matrix, which defines the connections between nodes in the graph, can be computed using two different methods:
+- **From Predicted Cluster Centers**: Compute the adjacency matrix based on the euclidean distance between the predicted cluster centers corroponding to each node.
+- **From Predicted Graph Links**: Compute the adjacency matrix based on the predicted links between nodes in the graph.
+
+Once clusters are formed, the object class can be determined by two methods:
+- **Model Head for Object Classification:** Directly use the model head designed for object classification to predict the class of each detected object.
+- **Node Segmentation Head:** Use the node segmentation head, where the class assigned to a cluster is determined by the class with the highest frequency within that cluster, akin to majority voting.
+
+Overall, there are **four** possible inference pathways:
+- **Adjacency Matrix from Predicted Cluster Centers & Model Head for Object Classification**
+- **Adjacency Matrix from Predicted Cluster Centers & Node Segmentation Head for Classification**
+- **Adjacency Matrix from Predicted Graph Links & Model Head for Object Classification**
+- **Adjacency Matrix from Predicted Graph Links & Node Segmentation Head for Classification**
+Determining the optimal inference method requires empirical evaluation to compare performance across these different approaches.
 
 <br>
 
