@@ -476,6 +476,7 @@ Overall, there are **four** possible inference pathways:
 - **Adjacency Matrix from Predicted Cluster Centers & Node Segmentation Head for Classification**
 - **Adjacency Matrix from Predicted Graph Links & Model Head for Object Classification**
 - **Adjacency Matrix from Predicted Graph Links & Node Segmentation Head for Classification**
+
 Determining the optimal inference method requires empirical evaluation to compare performance across these different approaches.
 
 <br>
