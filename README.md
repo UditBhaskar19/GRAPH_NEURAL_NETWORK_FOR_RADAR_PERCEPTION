@@ -476,7 +476,7 @@ Our end goal is to detect valid objects and predict their classes. An overview o
 <br>
 
 The adjacency matrix, which defines the connections between nodes in the graph, can be computed using two different methods:
-- **From Predicted Cluster Centers**: Compute the adjacency matrix based on the euclidean distance between the predicted cluster centers corroponding to each node.
+- **From Predicted Cluster Centers**: Compute the adjacency matrix based on the euclidean distance between the predicted cluster centers corroponding to each node. If the distance is less than a threshold a link is established between the two nodes 
 - **From Predicted Graph Links**: Compute the adjacency matrix based on the predicted links between nodes in the graph.
 
 Once clusters are formed, the object class can be determined by two methods:
