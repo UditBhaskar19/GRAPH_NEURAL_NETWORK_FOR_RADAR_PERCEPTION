@@ -463,15 +463,15 @@ This is framed as a sub-graph prediction problem. First an array of node index i
 
 Our end goal is to detect valid objects and predict their classes. An overview of different approaches are shown in the below figures.
 
-![](modules/readme_artifacts/13_infer.PNG)
+###**Approach 1**
 
-*Approach 1*
+![](modules/readme_artifacts/13_infer.PNG)
 
 <br>
 
-![](modules/readme_artifacts/13_infer2.PNG)
+**Approach 2**
 
-*Approach 2*
+![](modules/readme_artifacts/13_infer2.PNG)
 
 <br>
 
