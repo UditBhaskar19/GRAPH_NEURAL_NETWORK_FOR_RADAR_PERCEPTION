@@ -395,6 +395,8 @@ Edges typically represent interactions and relationships between connected nodes
 
 ### Node and Edge Embedding
 
+Here the node and edge input features are preprocessed so that the input features associated with nodes and edges are transformed into a higher-dimensional space, capturing more complex feature representations
+
 <br>
 
 ![](modules/readme_artifacts/3_feature_embed.PNG)
@@ -402,6 +404,8 @@ Edges typically represent interactions and relationships between connected nodes
 <br>
 
 ### Graph Convolution
+
+This is a residual block. The model has a series of these blocks connected one after the other. The main purpose of this block is to increase the receptive field one hop by aggregating and updating neighbouring node and edge features.
 
 <br>
 
@@ -411,6 +415,8 @@ Edges typically represent interactions and relationships between connected nodes
 
 ### Graph Link Prediction
 
+In this block first the adjacent matrix is transformed to an upper triangular matrix and then all the valid pairs of node embeddings are extracted, which are supsequently processed by a permutation invariant and equivariant functions to do link prediction.
+
 <br>
 
 ![](modules/readme_artifacts/5_link_pred.PNG)
@@ -418,6 +424,8 @@ Edges typically represent interactions and relationships between connected nodes
 <br>
 
 ### Node Offset Prediction
+
+Each of the node embeddings are processed by a permutation invariant and equivariant functions to predict cluster center offsets.
 
 <br>
 
@@ -427,6 +435,8 @@ Edges typically represent interactions and relationships between connected nodes
 
 ### Node Segmentation
 
+Each of the node embeddings are processed by a permutation invariant and equivariant functions to predict class of each nodes.
+
 <br>
 
 ![](modules/readme_artifacts/7_node_class.PNG)
@@ -434,6 +444,8 @@ Edges typically represent interactions and relationships between connected nodes
 <br>
 
 ### Object Classification
+
+This is framed as a sub-graph prediction problem. First an array of node index is extracted for each clusters. The node embeddings is extracted for each of those node and index and subsequently processed by a permutation invariant and equivariant functions to predict object class.
 
 <br>
 
