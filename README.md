@@ -104,6 +104,7 @@ In summary, **given as input the radar measurements**. The **following task are 
    </ol> 
 </li>
 <li><a href="#Model-Output-Postprocessing">Model Output Postprocessing</a>
+<li><a href="#Evaluation">Evaluation</a></li>
 <li><a href="#Predicted-vs-GT-Clusters-Visualization">Predicted vs GT Clusters Visualization</a></li>
 <li><a href="#References">References</a></li>
 
@@ -484,6 +485,14 @@ Once clusters are formed, the object class can be determined by two methods:
 - **Node Segmentation Head:** Use the node segmentation head, where the class assigned to a cluster is determined by the class with the highest frequency within that cluster, akin to majority voting.
 
 Overall, there are **four** possible inference pathways if we consider all possible options as above. Determining the optimal inference method requires empirical evaluation to compare performance across these different approaches.
+
+<br>
+
+[TOC](#t0)
+
+<br>
+
+## Evaluation
 
 <br>
 
