@@ -391,7 +391,9 @@ Edges typically represent interactions and relationships between connected nodes
 
 ### Detailed Architecture
 
-#### Node and Edge Embedding
+<br>
+
+### Node and Edge Embedding
 
 <br>
 
@@ -399,7 +401,7 @@ Edges typically represent interactions and relationships between connected nodes
 
 <br>
 
-#### Graph Convolution
+### Graph Convolution
 
 <br>
 
@@ -407,7 +409,7 @@ Edges typically represent interactions and relationships between connected nodes
 
 <br>
 
-#### Graph Link Prediction
+### Graph Link Prediction
 
 <br>
 
@@ -415,7 +417,7 @@ Edges typically represent interactions and relationships between connected nodes
 
 <br>
 
-#### Node Offset Prediction
+### Node Offset Prediction
 
 <br>
 
@@ -423,7 +425,7 @@ Edges typically represent interactions and relationships between connected nodes
 
 <br>
 
-#### Node Segmentation
+### Node Segmentation
 
 <br>
 
@@ -431,7 +433,7 @@ Edges typically represent interactions and relationships between connected nodes
 
 <br>
 
-#### Object Classification
+### Object Classification
 
 <br>
 
