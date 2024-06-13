@@ -301,6 +301,12 @@ By utilizing graph-based representations and operations, GNNs can efficiently pr
 
 In conclusion, Graph Neural Networks offer a robust and efficient approach to processing radar point cloud data. By leveraging the natural structure of graphs and utilizing permutation invariant and equivariant operations, GNNs overcome the limitations of traditional voxelization and CNN-based methods. This makes GNNs an ideal choice for handling the sparse and unordered nature of radar data, ensuring more accurate and computationally efficient processing
 
+<br>
+
+[TOC](#t0)
+
+<br>
+
 ### Concept Level Architecture
 
 <br>
@@ -333,6 +339,10 @@ The final stage of the architecture, known as the Network Head, is designed for 
 
 <br>
 
+[TOC](#t0)
+
+<br>
+
 ### Model Inputs: 
 Node features, Edge features and Adjacency Info is given as inputs to the model which is illustrated in the following figures.
 
@@ -360,11 +370,22 @@ Node features, Edge features and Adjacency Info is given as inputs to the model 
 
 The selection and computation of node and edge input features are crucial for the effectiveness of the model. The key factors considered for this process are as follows:
 - **Translation Invariant Node Attributes:**
+Only those node attributes that exhibit at least translation invariance are selected, such as radar cross-section (RCS), range-rate, and normalized time index. The normalized time index is included to uniquely distinguish between measurements accumulated at different time steps, potentially enhancing the model's performance across various tasks.
+
 - **Measurement Accuracy Variability:**
+The accuracy of radar measurements can vary with range and azimuth. To capture this variability, range and azimuth confidence values are included as input features.
+
 - **Manually computed Node Features:**
+ It is often challenging for a Graph Neural Network (GNN) to learn features such as node degree. Therefore, these features are computed from the adjacency matrix and augmented to the input node feature vector to provide the model with additional structural information.
+
 - **Edge Attributes for Interaction Representation:**
+Edges typically represent interactions and relationships between connected nodes. The attributes chosen to represent these interactions include relative positional and velocity differences: dx, dy, dl (distance in length), dvx (difference in velocity in the x direction), dvy (difference in velocity in the y direction), dv (difference in velocity), and dt (difference in time).
 
+<br>
 
+[TOC](#t0)
+
+<br>
 
 ### Node and Edge Embedding
 
