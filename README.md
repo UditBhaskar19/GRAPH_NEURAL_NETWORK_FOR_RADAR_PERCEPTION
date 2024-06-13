@@ -337,8 +337,6 @@ The final stage of the architecture, known as the Network Head, is designed for 
          <li> **Prediction:** Generates the final output based on the refined features, which could include classification scores, regression outputs, or other task-specific results. </li>
       </ol> <br>
 
-<br>
-
 [TOC](#t0)
 
 <br>
@@ -375,7 +373,7 @@ Only those node attributes that exhibit at least translation invariance are sele
 - **Measurement Accuracy Variability:**
 The accuracy of radar measurements can vary with range and azimuth. To capture this variability, range and azimuth confidence values are included as input features.
 
-- **Manually computed Node Features:**
+- **Node Feature Augmentation:**
  It is often challenging for a Graph Neural Network (GNN) to learn features such as node degree. Therefore, these features are computed from the adjacency matrix and augmented to the input node feature vector to provide the model with additional structural information.
 
 - **Edge Attributes for Interaction Representation:**
