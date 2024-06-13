@@ -445,7 +445,7 @@ Each of the node embeddings are processed by a permutation invariant and equivar
 
 ### Object Classification
 
-This is framed as a sub-graph prediction problem. First an array of node index is extracted for each clusters. The node embeddings is extracted for each of those node and index and subsequently processed by a permutation invariant and equivariant functions to predict object class.
+This is framed as a sub-graph prediction problem. First an array of node index is extracted for each clusters. The node embeddings are extracted for each of the node index and subsequently processed by a permutation invariant and equivariant functions to predict object class.
 
 <br>
 
