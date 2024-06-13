@@ -461,9 +461,17 @@ This is framed as a sub-graph prediction problem. First an array of node index i
 
 ## Model Output Postprocessing
 
-Our end goal is to detect valid objects and predict their classes. An overview of the approach is shown in the below figure.
+Our end goal is to detect valid objects and predict their classes. An overview of different approaches are shown in the below figures.
 
 ![](modules/readme_artifacts/13_infer.PNG)
+
+*Approach 1*
+
+<br>
+
+![](modules/readme_artifacts/13_infer2.PNG)
+
+*Approach 2*
 
 <br>
 
