@@ -90,7 +90,9 @@ In summary, **given as input the radar measurements**. The **following task are 
 <li><a href="#Model-Architecture">Model Architecture</a> 
    <ol>
        <li><a href="#Why-Graph-Neural-Network">Why Graph Neural Network</a></li>
-       <li><a href="#Concept-Level-Architecture">Concept Level Architecture</a></li> 
+       <li><a href="#Concept-Level-Architecture">Concept Level Architecture</a></li>
+       <li><a href="#Model-Inputs">Model Inputs</a></li> 
+       <li><a href="#Detailed-Architecture">Detailed Architecture</a></li>
        <li><a href="#Node-and-Edge-Embedding">Node and Edge Embedding</a></li> 
        <li><a href="#Graph-Convolution">Graph Convolution</a></li> 
        <li><a href="#Graph-Link-Prediction">Graph Link Prediction</a></li> 
