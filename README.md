@@ -480,13 +480,13 @@ The adjacency matrix, which defines the connections between nodes in the graph, 
 - **From Predicted Graph Links**: Compute the adjacency matrix based on the predicted links between nodes in the graph.
 
 Once clusters are formed, the object class can be determined by two methods:
-- **Model Head for Object Classification:** Directly use the model head designed for object classification to predict the class of each detected object.
+- **Object Classification Head:** Directly use the model head designed for object classification to predict the class of each detected object.
 - **Node Segmentation Head:** Use the node segmentation head, where the class assigned to a cluster is determined by the class with the highest frequency within that cluster, akin to majority voting.
 
 Overall, there are **four** possible inference pathways:
-- **Adjacency Matrix from Predicted Cluster Centers & Model Head for Object Classification**
+- **Adjacency Matrix from Predicted Cluster Centers & Object Classification Head for Classification**
 - **Adjacency Matrix from Predicted Cluster Centers & Node Segmentation Head for Classification**
-- **Adjacency Matrix from Predicted Graph Links & Model Head for Object Classification**
+- **Adjacency Matrix from Predicted Graph Links & Object Classification Head for Classification**
 - **Adjacency Matrix from Predicted Graph Links & Node Segmentation Head for Classification**
 
 Determining the optimal inference method requires empirical evaluation to compare performance across these different approaches.
