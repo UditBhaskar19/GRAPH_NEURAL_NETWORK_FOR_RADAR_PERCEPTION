@@ -359,21 +359,12 @@ Node features, Edge features and Adjacency Info is given as inputs to the model 
 </div>
 
 The selection and computation of node and edge input features are crucial for the effectiveness of the model. The key factors considered for this process are as follows:
-<ol>
-<li> **Translation Invariant Node Attributes:** </li>
-<li> **Measurement Accuracy Variability:** </li>
-<li> **Manually computed Node Features:** </li>
-<li> **Edge Attributes for Interaction Representation:** </li>
-</ol>
+- **Translation Invariant Node Attributes:**
+- **Measurement Accuracy Variability:**
+- **Manually computed Node Features:**
+- **Edge Attributes for Interaction Representation:**
 
 
-
-
-Some of the key deciding factors for node and edge input feature selection and computation are as follows:
-- Only those node attributes are chosen that are atleast translation invarient like rcs, range-rate and normalized time index. Time index is used as a feature to uniquily distinguish between measurements that were accumulated at different time steps which might help the model perform better at different tasks. 
-- Typically the accuracy of the radar measurement varies with range and azimuth. This is captured using the range and azimuth confidence values.
-- It is typically difficult for a GNN to learn features like node degree, thus these features are computed from the adjacency matrix and augmented to the input node feature vector.
-- Since edges typically indicate interactions and relation between the two connected vertices, the attributes used are: dx, dy, dl, dvx, dvy, dv, dt 
 
 ### Node and Edge Embedding
 
