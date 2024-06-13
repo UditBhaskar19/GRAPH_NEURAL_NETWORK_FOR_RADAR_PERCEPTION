@@ -463,6 +463,10 @@ This is framed as a sub-graph prediction problem. First an array of node index i
 
 Our end goal is to detect valid objects and predict their classes. An overview of the approach is shown in the below figure.
 
+![](modules/readme_artifacts/13_infer.PNG)
+
+<br>
+
 The adjacency matrix, which defines the connections between nodes in the graph, can be computed using two different methods:
 - **From Predicted Cluster Centers**: Compute the adjacency matrix based on the euclidean distance between the predicted cluster centers corroponding to each node.
 - **From Predicted Graph Links**: Compute the adjacency matrix based on the predicted links between nodes in the graph.
