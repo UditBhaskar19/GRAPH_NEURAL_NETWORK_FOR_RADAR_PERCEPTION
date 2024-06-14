@@ -2,7 +2,7 @@
 
 # Multi-task Learning using Message Passing Graph Neural Network for Radar based Perception Functions
 
-*if you like this repo and find it useful please give it a :star:
+*if you like this repo and find it useful please give it a :star:*
 
 [![Generic badge](https://img.shields.io/badge/License-MIT-<COLOR>.svg?style=for-the-badge)](https://github.com/UditBhaskar19/ANCHOR_FREE_OBJECT_DETECTOR_FOR_CAMERA/blob/main/LICENSE) 
 [![PyTorch - Version](https://img.shields.io/badge/PYTORCH-2.0.1+-red?style=for-the-badge&logo=pytorch)](https://pytorch.org/get-started/locally/) 
