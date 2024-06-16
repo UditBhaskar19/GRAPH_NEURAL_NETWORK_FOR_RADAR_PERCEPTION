@@ -597,7 +597,6 @@ Either **SGD with momentum** or **AdamW** oprimization method can be used. Refer
 |                          **0.6**                 |             69.73%     |          70.44%  |           65.38%    |
 |                              0.7                 |             81.84%     |          62.53%  |           59.50%    |
 
-
 </td><td>
 
 <img src="AnchorFree2DObjectDetection/_readme_artifacts/10_kitti_viz3.PNG"/>

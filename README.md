@@ -68,6 +68,16 @@ In summary, **given as input the radar measurements**. The **following task are 
 <tr><th>Precision & Recall</th></tr>
 <tr><td>
 
+|       Object Class                |       Precision (%)    |      Recall (%)  |
+|:---------------------------------:|:----------------------:|:----------------:|
+|         car                       |                        |                  |
+|         pedestrian                |                        |                  |
+|         pedestrian group          |                        |                  |
+|         two wheelers              |                        |                  |
+|         large vehicles            |                        |                  |
+|         background                |                        |                  |
+
+
 </td></tr></table>
 
 <br>
