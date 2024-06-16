@@ -65,17 +65,17 @@ In summary, **given as input the radar measurements**. The **following task are 
 <br>
 
 <table>
-<tr><th>Precision & Recall</th></tr>
+<tr><th>Model Performance (Test Data)</th></tr>
 <tr><td>
 
-|       Object Class                |       Precision (%)    |      Recall (%)  |
-|:---------------------------------:|:----------------------:|:----------------:|
-|         car                       |                        |                  |
-|         pedestrian                |                        |                  |
-|         pedestrian group          |                        |                  |
-|         two wheelers              |                        |                  |
-|         large vehicles            |                        |                  |
-|         background                |                        |                  |
+|       Object Class            |   Precision (%) for Test data   |      Precision (%) for Train data  |   Recall (%) for Test data   |      Recall (%) for Train data  |
+|:-----------------------------:|:-------------------------------:|:----------------------------------:|:----------------------------:|:-------------------------------:|
+|         car                   |      69.8                       |             74.4                   |          85.8                |          91.9 |                  
+|         pedestrian            |      71.6                       |             81.8                   |          61.6                |          66.4 |
+|         pedestrian group      |      78.0                       |             83.3                   |          78.8                |          81.9 |
+|         two wheelers          |      74.1                       |             87.4                   |          70.2                |          85.5 |
+|         large vehicles        |      39.3                       |             52.0                   |          74.3                |          79.5 |
+|         background            |      99.3                       |             99.6                   |          71.7                |          71.1 |
 
 
 </td></tr></table>
