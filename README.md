@@ -52,12 +52,6 @@ In summary, **given as input the radar measurements**. The **following task are 
 
 <br>
 
-![](modules/readme_artifacts/10_tensorboard_plots.PNG)
-
-*Tensorboard Plots.*
-
-<br>
-
 ![](modules/readme_artifacts/9_confusion_mat_test_2.PNG)
 
 *Normalized Confusion Matrix.*
@@ -66,7 +60,7 @@ In summary, **given as input the radar measurements**. The **following task are 
 
 
 <table>
-<tr><th>Model Performance (Test Data)</th><th>Model Performance (Test Data)</th></tr>
+<tr><th>Model Performance (Test Data)</th><th>Model Performance (Train Data)</th></tr>
 <tr><td>
 
 |       Class            |   Precision (%)   |   Recall (%)    |
@@ -90,6 +84,8 @@ In summary, **given as input the radar measurements**. The **following task are 
 |  background            |      99.6         |          71.1   |
 
 </td></tr></table>
+
+*Precision and Recall.*
 
 <br>
 
