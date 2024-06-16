@@ -64,6 +64,14 @@ In summary, **given as input the radar measurements**. The **following task are 
 
 <br>
 
+<table>
+<tr><th>Precision & Recall</th></tr>
+<tr><td>
+
+</td></tr></table>
+
+<br>
+
 </div>
 
 
