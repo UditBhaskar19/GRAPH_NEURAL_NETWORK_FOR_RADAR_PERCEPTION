@@ -139,20 +139,23 @@ def plot_clusters_measurements_and_object_class(
 
     ax.scatter(px, py, 2, color='black', marker='.')
 
-    for cluster_boundary, cluster_size, cluster_class in zip(cluster_boundary_list, cluster_size_list, cluster_class_list):
-        if cluster_size > cluster_size_threshold:
+    if len(cluster_class_list) > 0:
+
+        for cluster_boundary, cluster_size, cluster_class \
+            in zip(cluster_boundary_list, cluster_size_list, cluster_class_list):
+            if cluster_size > cluster_size_threshold:
+                ax.scatter(
+                    cluster_boundary[:,0], cluster_boundary[:,1], 
+                    boundary_marker_size, color=colors[cluster_class], marker='.')
+                
+        cluster_class_numpy = np.array(cluster_class_list)
+        unique_class = np.unique(cluster_class_numpy)
+        cluster_mean_numpy = np.stack(cluster_mean_list, axis=0)
+        for i in range(unique_class.shape[0]):
+            flag = unique_class[i] == cluster_class_numpy
             ax.scatter(
-                cluster_boundary[:,0], cluster_boundary[:,1], 
-                boundary_marker_size, color=colors[cluster_class], marker='.')
-            
-    cluster_class_numpy = np.array(cluster_class_list)
-    unique_class = np.unique(cluster_class_numpy)
-    cluster_mean_numpy = np.stack(cluster_mean_list, axis=0)
-    for i in range(unique_class.shape[0]):
-        flag = unique_class[i] == cluster_class_numpy
-        ax.scatter(
-            cluster_mean_numpy[flag, 0], cluster_mean_numpy[flag, 1], 
-            2, color=colors[unique_class[i]], marker='.', label=all_labels[unique_class[i]])
+                cluster_mean_numpy[flag, 0], cluster_mean_numpy[flag, 1], 
+                2, color=colors[unique_class[i]], marker='.', label=all_labels[unique_class[i]])
         
     ax.set_xlabel('x(m)')
     ax.set_ylabel('y(m)')

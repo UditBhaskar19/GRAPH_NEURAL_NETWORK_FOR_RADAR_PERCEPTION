@@ -23,6 +23,34 @@ def get_train_val_sequence_names(dataset_rootdir, dataset_path):
         if category == 'validation': validation_sequence_names.append(sequence_name)
     return train_sequence_names, validation_sequence_names
 
+
+def get_train_val_sequence_names_v2(dataset_rootdir, dataset_path):
+    # get total number of sequences in the dataset
+    seq_info_file = os.path.join(dataset_rootdir, dataset_path, 'sequences.json')
+    with open(seq_info_file, "r") as f:
+        seq_info_data = json.load(f)
+    n_sequences = seq_info_data['n_sequences']
+
+    # get the sequences that corrospond to 'training' and 'validation'
+    train_test_sequence_names = []
+    validation_sequence_names = []
+    for i in range(n_sequences):
+        sequence_name = 'sequence_' + str(i+1)
+        category = seq_info_data['sequences'][sequence_name]['category']
+        if category == 'train': train_test_sequence_names.append(sequence_name)
+        if category == 'validation': validation_sequence_names.append(sequence_name)
+
+    # sequence indexes for test and train
+    idx_all = {i for i in range(len(train_test_sequence_names))}
+    idx_test = {4, 6, 11, 16, 18, 24, 33, 34, 36, 37, 42, 44, 48, 52, 
+                53, 60, 63, 67, 73, 84, 86, 92, 94, 100, 108, 119, 124, 126}
+    idx_train = idx_all - idx_test
+
+    train_sequence_names = [train_test_sequence_names[i] for i in idx_train]
+    test_sequence_names = [train_test_sequence_names[i] for i in idx_test]
+
+    return train_sequence_names, validation_sequence_names, test_sequence_names
+
 # ---------------------------------------------------------------------------------------------------------------
 def extract_radar_mount_data(dataset_rootdir, dataset_path):
     mount_file = os.path.join(dataset_rootdir, dataset_path, 'sensors.json')
@@ -299,6 +327,39 @@ def convert_list_ndarry_to_ndarray(
         stationary_meas_flag, meas_label_id
 
 # ---------------------------------------------------------------------------------------------------------------
+def create_sequences_info_list_v2(
+    dataset_rootdir, dataset_path, 
+    temporal_window_size, 
+    sequence_names):
+
+    dataset_metadata = []
+    for sequence_name in sequence_names:
+
+        current_timestamp_list,\
+        radar_id_list,\
+        odometry_timestamp_list,\
+        odometry_index_list,\
+        radar_data_indices_list, _ \
+            = aggregate_dataset(sequence_name, dataset_rootdir, dataset_path)
+
+        windowed_data_list \
+            = create_dataset_sliding_window(
+                temporal_window_size,
+                current_timestamp_list,
+                radar_id_list,
+                odometry_timestamp_list,
+                odometry_index_list,
+                radar_data_indices_list)
+        
+        for windowed_data in windowed_data_list:
+            data = {}
+            data['sequence_name'] = sequence_name
+            data['data'] = windowed_data
+            dataset_metadata.append(data)
+
+    return dataset_metadata
+
+
 def create_sequences_info_list(dataset_rootdir, dataset_path, temporal_window_size):
     sequences_file = os.path.join(dataset_rootdir, dataset_path, 'sequences.json')
     with open(sequences_file, "r") as f:

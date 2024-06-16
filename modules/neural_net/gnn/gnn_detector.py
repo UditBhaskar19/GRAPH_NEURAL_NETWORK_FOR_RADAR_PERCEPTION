@@ -29,7 +29,7 @@ def compute_accuracy(predicted_class, gt_class):
 
 # --------------------------------------------------------------------------------------------------------------
 class Model_Inference(nn.Module):
-    def __init__(self, net_config, extract_proposals=False, eps=1.4):
+    def __init__(self, net_config, extract_proposals=False, eps=1.4, compute_adj_mat_from_links=False):
         super().__init__()
 
         self.extract_proposals = extract_proposals
@@ -116,7 +116,7 @@ class Model_Inference(nn.Module):
             num_groups = num_groups)
         
         if extract_proposals == True:
-            self.set_param_for_proposal_extraction(eps)
+            self.set_param_for_proposal_extraction(eps, compute_adj_mat_from_links)
 
     @staticmethod
     def freeze_weights(nn_module):
@@ -132,10 +132,11 @@ class Model_Inference(nn.Module):
         self.predict_offset = self.freeze_weights(self.predict_offset)
         self.predict_link = self.freeze_weights(self.predict_link)
 
-    def set_param_for_proposal_extraction(self, eps):
+    def set_param_for_proposal_extraction(self, eps, compute_adj_mat_from_links):
+        self.compute_adj_mat_from_links = compute_adj_mat_from_links
         self.extract_proposals = True
         self.meas_noise_cov = 0.5 * np.eye(2, dtype=np.float32)
-        self.clustering_obj = Simple_DBSCAN(eps)
+        self.clustering_obj = Simple_DBSCAN(eps, compute_adj_mat_from_links)
         
     def forward(
         self,
@@ -154,6 +155,9 @@ class Model_Inference(nn.Module):
         node_offsets_predictions = self.predict_offset(node_features)
         link_cls_predictions = self.predict_link(node_features, adj_matrix)
 
+        edge_cls_prob= F.softmax(link_cls_predictions, dim=-1)
+        _, edge_cls_idx = torch.max(edge_cls_prob, dim=-1)
+
         if cluster_node_idx != None:
             obj_cls_predictions = self.predict_class(node_features, cluster_node_idx)
 
@@ -162,7 +166,15 @@ class Model_Inference(nn.Module):
             node_offsets_predictions_cpy = node_offsets_predictions.clone().detach()
             reg_deltas = unnormalize_gt_offsets(node_offsets_predictions_cpy, self.reg_mu, self.reg_sigma)
             pred_cluster_centers_xy = other_features[:, :2] + reg_deltas
-            self.clustering_obj.cluster_nodes(pred_cluster_centers_xy.detach().cpu().numpy())
+
+            if self.compute_adj_mat_from_links == True:
+                self.clustering_obj.cluster_nodes(
+                    pred_cluster_centers_xy.detach().cpu().numpy(),
+                    edge_cls_idx.detach().cpu().numpy(), 
+                    adj_matrix.detach().cpu().numpy())
+                
+            else:
+                self.clustering_obj.cluster_nodes(pred_cluster_centers_xy.detach().cpu().numpy())
 
             # extract clusters
             cluster_members_list = []

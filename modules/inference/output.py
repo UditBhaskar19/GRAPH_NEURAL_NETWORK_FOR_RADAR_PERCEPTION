@@ -36,7 +36,8 @@ def process_frame(
     device,
     detector, 
     sequence_name,
-    cluster_size_threshold):
+    cluster_size_threshold,
+    detect_object_by_segmentation_output=True):
 
     # print('-' * 100)
     print(f'frame number: {idx}')
@@ -100,21 +101,36 @@ def process_frame(
     pred_cluster_centers_xy = graph_features['other_features_dyn'][:, :2] + reg_deltas
 
     # predict node class
-    cls_prob = F.softmax(node_cls_predictions, dim=-1)
-    cls_score, cls_idx = torch.max(cls_prob, dim=-1)
+    node_cls_prob = F.softmax(node_cls_predictions, dim=-1)
+    node_cls_score, node_pred_class = torch.max(node_cls_prob, dim=-1)
 
     # predict edge class
     edge_cls_prob= F.softmax(edge_cls_predictions, dim=-1)
     edge_cls_score, edge_cls_idx = torch.max(edge_cls_prob, dim=-1)
 
     # predict object class
-    obj_cls_prob = F.softmax(obj_cls_predictions, dim=-1)
-    obj_cls_score, obj_cls_idx = torch.max(obj_cls_prob, dim=-1)
+    if detect_object_by_segmentation_output == True:
+        obj_pred_cls_list = []
+        for cluster_mem in cluster_members_list_pred:
+            cluster_meas_labels = node_pred_class[cluster_mem]
+            obj_pred_cls_list.append(torch.argmax(torch.bincount(cluster_meas_labels)))
+        obj_cls_idx = torch.stack(obj_pred_cls_list, dim=0)
+
+    else:
+        obj_cls_prob = F.softmax(obj_cls_predictions, dim=-1)
+        obj_cls_score, obj_cls_idx = torch.max(obj_cls_prob, dim=-1)
+
+    flag = obj_cls_idx != 6
+    valid_cluster_members_list_pred = []
+    for i, members in enumerate(cluster_members_list_pred):
+        if flag[i]: valid_cluster_members_list_pred.append(members)
+    cluster_members_list_pred = valid_cluster_members_list_pred
+    obj_cls_idx = obj_cls_idx[flag] 
 
     # -----------------------------------------------------------------------------------------------------
     px = graph_features['other_features_dyn'][:, 0].detach().cpu().numpy()
     py = graph_features['other_features_dyn'][:, 1].detach().cpu().numpy()
-    pred_class = cls_idx.detach().cpu().numpy()
+    pred_class = node_pred_class.detach().cpu().numpy()
     pred_edge_class = edge_cls_idx.detach().cpu().numpy()
 
     pred_cluster_centers_xy = pred_cluster_centers_xy.detach().cpu().numpy()
@@ -122,7 +138,7 @@ def process_frame(
     pred_cluster_centers_y_all = pred_cluster_centers_xy[:,1]
     gt_cluster_centers_x_all = px + node_labels_dict_dyn['offsetx']
     gt_cluster_centers_y_all = py + node_labels_dict_dyn['offsety']
-
+    
     flag = gt_labels_dyn != 6
     pred_cluster_centers_x_valid = pred_cluster_centers_x_all[flag]
     pred_cluster_centers_y_valid = pred_cluster_centers_y_all[flag]
@@ -190,7 +206,8 @@ def compare_pred_and_gt_cluster(
     device,
     detector, 
     sequence_name,
-    cluster_size_threshold):
+    cluster_size_threshold,
+    detect_object_by_segmentation_output=True):
 
     # print('-' * 100)
     print(f'frame number: {idx}')
@@ -254,21 +271,37 @@ def compare_pred_and_gt_cluster(
     pred_cluster_centers_xy = graph_features['other_features_dyn'][:, :2] + reg_deltas
 
     # predict node class
-    cls_prob = F.softmax(node_cls_predictions, dim=-1)
-    cls_score, cls_idx = torch.max(cls_prob, dim=-1)
+    node_cls_prob = F.softmax(node_cls_predictions, dim=-1)
+    node_cls_score, node_pred_class = torch.max(node_cls_prob, dim=-1)
 
     # predict edge class
     edge_cls_prob= F.softmax(edge_cls_predictions, dim=-1)
     edge_cls_score, edge_cls_idx = torch.max(edge_cls_prob, dim=-1)
 
     # predict object class
-    obj_cls_prob = F.softmax(obj_cls_predictions, dim=-1)
-    obj_cls_score, obj_cls_idx = torch.max(obj_cls_prob, dim=-1)
+    if detect_object_by_segmentation_output == True:
+        obj_pred_cls_list = []
+        for cluster_mem in cluster_members_list_pred:
+            cluster_meas_labels = node_pred_class[cluster_mem]
+            obj_pred_cls_list.append(torch.argmax(torch.bincount(cluster_meas_labels)))
+        obj_cls_idx = torch.stack(obj_pred_cls_list, dim=0)
+
+    else:
+        # predict object class
+        obj_cls_prob = F.softmax(obj_cls_predictions, dim=-1)
+        obj_cls_score, obj_cls_idx = torch.max(obj_cls_prob, dim=-1)
+
+    flag = obj_cls_idx != 6
+    valid_cluster_members_list_pred = []
+    for i, members in enumerate(cluster_members_list_pred):
+        if flag[i]: valid_cluster_members_list_pred.append(members)
+    cluster_members_list_pred = valid_cluster_members_list_pred
+    obj_cls_idx = obj_cls_idx[flag]
 
     # -----------------------------------------------------------------------------------------------------
     px = graph_features['other_features_dyn'][:, 0].detach().cpu().numpy()
     py = graph_features['other_features_dyn'][:, 1].detach().cpu().numpy()
-    pred_class = cls_idx.detach().cpu().numpy()
+    pred_class = node_pred_class.detach().cpu().numpy()
     pred_edge_class = edge_cls_idx.detach().cpu().numpy()
 
     pred_cluster_centers_xy = pred_cluster_centers_xy.detach().cpu().numpy()

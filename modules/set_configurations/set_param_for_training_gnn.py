@@ -15,12 +15,14 @@ def set_parameters_for_training(
     batch_size: int,
     starting_iter_num: int = 0, 
     load_model_weights_train: bool = False, 
-    trained_weights_path: str = ''):
+    trained_weights_path: str = '',
+    use_default_dataset_partitions = False):
 
     sys.path.append(module_rootdir)
     from modules.neural_net.gnn.gnn_detector import Model_Training
     from modules.compute_features.grid_features import grid_properties
     from modules.data_utils.read_data import create_sequences_info_list, create_train_validation_sets
+    from modules.data_utils.read_data import get_train_val_sequence_names_v2, create_sequences_info_list_v2
     from modules.data_generator.datagen_gnn import RadarScenesDataset
 
     reset_seed(config_obj.seed)
@@ -61,8 +63,19 @@ def set_parameters_for_training(
         min_sigma_y = config_obj.min_sigma_y, max_sigma_y = config_obj.max_sigma_y, 
         dx = config_obj.dx, dy = config_obj.dy)
     
-    dataset_metadata = create_sequences_info_list(dataset_rootdir, config_obj.dataset_path, config_obj.window_size)
-    train_dataset_metadata, validation_dataset_metadata = create_train_validation_sets(dataset_metadata)
+    if use_default_dataset_partitions == True:
+        dataset_metadata = create_sequences_info_list(dataset_rootdir, config_obj.dataset_path, config_obj.window_size)
+        train_dataset_metadata, validation_dataset_metadata = create_train_validation_sets(dataset_metadata)
+
+    else:
+        train_sequence_names, validation_sequence_names, _ = \
+            get_train_val_sequence_names_v2(dataset_rootdir, config_obj.dataset_path)
+
+        train_dataset_metadata = create_sequences_info_list_v2(
+            dataset_rootdir, config_obj.dataset_path, config_obj.window_size, train_sequence_names)
+        
+        validation_dataset_metadata = create_sequences_info_list_v2(
+            dataset_rootdir, config_obj.dataset_path, config_obj.window_size, validation_sequence_names)
 
     # --------------------------------------------------------------------------------------------------------------
     if config_obj.num_training_samples > 0:

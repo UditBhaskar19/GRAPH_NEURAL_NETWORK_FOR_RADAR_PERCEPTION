@@ -8,15 +8,12 @@ import numpy as np
 def compute_adjacency_mat_from_predicted_edges(input_graph_adj_matrix, node_xy_coord, pred_edges, eps):
     # extract the valid links
     valid_row_idx, valid_col_idx = np.nonzero(np.triu(input_graph_adj_matrix, k=1))
-    row_idx = valid_row_idx[pred_edges == 1]
-    col_idx = valid_col_idx[pred_edges == 1]
-
     # remove highly unlikely edges: i.e if the L2 norm between a node pair is >= eps
-    node_pair_dist = np.sqrt((node_xy_coord[row_idx, 0] - node_xy_coord[col_idx, 0]) ** 2 + \
-                             (node_xy_coord[row_idx, 1] - node_xy_coord[col_idx, 1]) ** 2)
-    invalid_edge = node_pair_dist >= eps
+    node_pair_dist = np.sqrt((node_xy_coord[valid_row_idx, 0] - node_xy_coord[valid_col_idx, 0]) ** 2 + \
+                             (node_xy_coord[valid_row_idx, 1] - node_xy_coord[valid_col_idx, 1]) ** 2)
+    invalid_edge = np.logical_and(node_pair_dist >= eps, pred_edges == 1) 
     pred_edges[invalid_edge] = 0
-    
+
     # compute the adjacency matrix
     row_idx = valid_row_idx[pred_edges == 1]
     col_idx = valid_col_idx[pred_edges == 1]
@@ -44,20 +41,24 @@ def compute_adjacency_mat_from_predicted_offsets(pred_node_offsets, eps):
 
 # ---------------------------------------------------------------------------------------------------------------
 class Simple_DBSCAN:
-    def __init__(self, eps):
+    def __init__(self, eps, compute_adj_mat_from_links=False):
         self.eps = eps
+        self.compute_adj_mat_from_links = compute_adj_mat_from_links
 
     def init_datastruct(self, num_nodes):
         self.num_clusters = 0
         self.meas_to_cluster_id = -1 + np.zeros((num_nodes, ), dtype=np.int16)
         self.cluster_member = np.zeros((num_nodes, ), dtype=np.uint16)
 
-    def cluster_nodes(self, meas_xy):
+    def cluster_nodes(self, meas_xy, pred_edges=None, input_graph_adj_matrix=None):
         cluster_id = 0
         num_clstr_mem = 0
         num_nodes = meas_xy.shape[0]
         self.init_datastruct(num_nodes)
-        adjacency_mat = compute_adjacency_mat_from_predicted_offsets(meas_xy, self.eps)
+        if self.compute_adj_mat_from_links == True:
+            adjacency_mat = compute_adjacency_mat_from_predicted_edges(
+                input_graph_adj_matrix, meas_xy, pred_edges, self.eps)
+        else: adjacency_mat = compute_adjacency_mat_from_predicted_offsets(meas_xy, self.eps)
 
         # start clustering (Breadth First Search - BFS)
         for m in range(num_nodes):
