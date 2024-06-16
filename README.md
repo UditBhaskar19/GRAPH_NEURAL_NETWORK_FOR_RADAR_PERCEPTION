@@ -93,42 +93,6 @@ In summary, **given as input the radar measurements**. The **following task are 
 
 <br>
 
-
-<table>
-<tr><th>Model Performance (Test Data)</th></tr>
-<tr><td>
-
-|       Class            |   Precision (%)   |   Recall (%)    |
-|:----------------------:|:-----------------:|:---------------:|
-|  car                   |      69.8         |    85.8         |            
-|  pedestrian            |      71.6         |    61.6         |
-|  pedestrian group      |      78.0         |    78.8         |
-|  two wheelers          |      74.1         |    70.2         | 
-|  large vehicles        |      39.3         |    74.3         | 
-|  background            |      99.3         |    71.7         |
-
-
-</td></tr></table>
-
-
-<table>
-<tr><th>Model Performance (Train Data)</th></tr>
-<tr><td>
-
-|       Class            |   Precision (%)   |   Recall (%)    |
-|:----------------------:|:-----------------:|:---------------:|
-|  car                   |      74.4         |          91.9   |                  
-|  pedestrian            |      81.8         |          66.4   |
-|  pedestrian group      |      83.3         |          81.9   |
-|  two wheelers          |      87.4         |          85.5   |
-|  large vehicles        |      52.0         |          79.5   |
-|  background            |      99.6         |          71.1   |
-
-
-</td></tr></table>
-
-<br>
-
 </div>
 
 
